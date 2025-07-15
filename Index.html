@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coisa de Caipira Alimentos - Produtos da Roça</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
     <style>
         :root {
             --verde-primario: #2e7d32;
@@ -19,24 +19,7 @@
             --bege: #f5f5dc;
             --marrom: #5d4037;
         }
-        <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyADdZbV9CvD6EO3TXY4FsV-4WRxZLkjuNw",
-    authDomain: "coisa-de-caipira.firebaseapp.com",
-    projectId: "coisa-de-caipira",
-    storageBucket: "gs://coisa-de-caipira.firebasestorage.app",
-    messagingSenderId: "784075359586",
-    appId: "1:784075359586:web:3b8902f0811e6117c4583b"
-  };
-  
-  // Inicializa o Firebase
-  firebase.initializeApp(firebaseConfig);
-  
-  // Cria referências para os serviços
-  const db = firebase.firestore();
-  const auth = firebase.auth();
-  const storage = firebase.storage();
-</script>
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
@@ -623,6 +606,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyADdZbV9CvD6EO3TXY4FsV-4WRxZLkjuNw",
+            authDomain: "coisa-de-caipira.firebaseapp.com",
+            projectId: "coisa-de-caipira",
+            storageBucket: "coisa-de-caipira.appspot.com",
+            messagingSenderId: "784075359586",
+            appId: "1:784075359586:web:3b8902f0811e6117c4583b"
+        };
+
+        // Inicialização do Firebase
+        try {
+            const app = firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
+            const auth = firebase.auth();
+            const storage = firebase.storage();
+            console.log("Firebase conectado com sucesso!");
+        } catch (error) {
+            console.error("Erro ao conectar Firebase:", error);
+        }
+
         // Variáveis globais
         let currentUser = null;
         
@@ -640,21 +644,12 @@
             registerModal.show();
         }
         
-        function showAddProductModal() {
-            const addProductModal = new bootstrap.Modal(document.getElementById('addProductModal'));
-            addProductModal.show();
-        }
-        
-        function showAddUserModal() {
-            // Implementar similar ao showAddProductModal
-        }
-        
-        // Funções para mostrar seções do admin
-        function showAdminSection(sectionId) {
-            document.querySelectorAll('.admin-section').forEach(section => {
-                section.style.display = 'none';
+        function showCart() {
+            Swal.fire({
+                title: 'Carrinho de Compras',
+                text: 'Funcionalidade em desenvolvimento',
+                icon: 'info'
             });
-            document.getElementById(sectionId).style.display = 'block';
         }
         
         // Manipulação do formulário de login
@@ -664,52 +659,33 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            // Simulação de autenticação
-            if (email === 'admin@coisadecaipira.com' && password === 'admin123') {
-                currentUser = {
-                    name: 'Admin Master',
-                    email: email,
-                    type: 'admin'
-                };
-                
-                // Esconder a área pública e mostrar a área admin
-                document.querySelector('body > :not(#adminArea)').style.display = 'none';
-                document.getElementById('adminArea').style.display = 'block';
-                
-                // Fechar o modal
-                const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-                loginModal.hide();
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login realizado!',
-                    text: 'Bem-vindo ao painel administrativo',
-                    timer: 2000
+            // Autenticação com Firebase
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    currentUser = userCredential.user;
+                    
+                    if (email === 'admin@coisadecaipira.com') {
+                        // Esconder a área pública e mostrar a área admin
+                        document.querySelector('body > :not(#adminArea)').style.display = 'none';
+                        document.getElementById('adminArea').style.display = 'block';
+                    }
+                    
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Login realizado!',
+                        timer: 2000
+                    });
+                    
+                    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    loginModal.hide();
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: error.message
+                    });
                 });
-            } else if (email && password) {
-                // Login como usuário comum
-                currentUser = {
-                    name: 'Usuário Teste',
-                    email: email,
-                    type: 'user'
-                };
-                
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Login realizado!',
-                    text: 'Bem-vindo de volta',
-                    timer: 2000
-                });
-                
-                const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-                loginModal.hide();
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro',
-                    text: 'Email ou senha incorretos'
-                });
-            }
         });
         
         // Manipulação do formulário de registro
@@ -721,59 +697,63 @@
             const password = document.getElementById('registerPassword').value;
             const type = document.getElementById('registerType').value;
             
-            // Simulação de cadastro
-            currentUser = {
-                name: name,
-                email: email,
-                type: type
-            };
-            
-            const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
-            registerModal.hide();
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Conta criada!',
-                text: 'Sua conta foi registrada com sucesso',
-                timer: 2000
-            }).then(() => {
-                if (type === 'admin') {
-                    // Esconder a área pública e mostrar a área admin
-                    document.querySelector('body > :not(#adminArea)').style.display = 'none';
-                    document.getElementById('adminArea').style.display = 'block';
-                }
-            });
-        });
-        
-        // Visualização de imagem antes do upload
-        document.getElementById('productImageInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const preview = document.getElementById('imagePreview');
-                    preview.innerHTML = `<img src="${event.target.result}" class="img-thumbnail" style="max-height: 150px;">`;
-                };
-                reader.readAsDataURL(file);
-            }
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Adiciona dados adicionais do usuário
+                    return firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                        name: name,
+                        email: email,
+                        type: type,
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                })
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Conta criada!',
+                        text: 'Sua conta foi registrada com sucesso',
+                        timer: 2000
+                    });
+                    
+                    const registerModal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                    registerModal.hide();
+                })
+                .catch((error) => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: error.message
+                    });
+                });
         });
         
         // Função de logout
         function logout() {
-            currentUser = null;
-            document.getElementById('adminArea').style.display = 'none';
-            document.querySelector('body > :not(#adminArea)').style.display = 'block';
-            
-            Swal.fire({
-                icon: 'success',
-                title: 'Logout realizado!',
-                timer: 2000
+            firebase.auth().signOut().then(() => {
+                currentUser = null;
+                document.getElementById('adminArea').style.display = 'none';
+                document.querySelector('body > :not(#adminArea)').style.display = 'block';
+                
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Logout realizado!',
+                    timer: 2000
+                });
             });
         }
         
-        // Inicialização
+        // Monitorar estado de autenticação
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                console.log("Usuário logado:", user.email);
+            } else {
+                console.log("Nenhum usuário logado");
+            }
+        });
+        
+        // Inicialização de animações
         document.addEventListener('DOMContentLoaded', function() {
-            // Efeitos de animação ao rolar
             const animateElements = document.querySelectorAll('.animate-fadeIn');
             
             const observer = new IntersectionObserver((entries) => {
