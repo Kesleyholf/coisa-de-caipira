@@ -19,7 +19,24 @@
             --bege: #f5f5dc;
             --marrom: #5d4037;
         }
-        
+        <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyADdZbV9CvD6EO3TXY4FsV-4WRxZLkjuNw",
+    authDomain: "coisa-de-caipira.firebaseapp.com",
+    projectId: "coisa-de-caipira",
+    storageBucket: "gs://coisa-de-caipira.firebasestorage.app",
+    messagingSenderId: "784075359586",
+    appId: "1:784075359586:web:3b8902f0811e6117c4583b"
+  };
+  
+  // Inicializa o Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  // Cria referências para os serviços
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+  const storage = firebase.storage();
+</script>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
