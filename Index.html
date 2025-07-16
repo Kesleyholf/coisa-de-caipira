@@ -10,6 +10,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --verde-primario: #2e7d32;
@@ -21,7 +22,7 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
         }
         
@@ -34,6 +35,7 @@
             font-weight: 700;
             color: white !important;
             font-size: 1.5rem;
+            font-family: 'Roboto Slab', serif;
         }
         
         .btn-primary {
@@ -73,7 +75,7 @@
         }
         
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.appspot.com/o/banner.jpg?alt=media');
             background-size: cover;
             background-position: center;
             color: white;
@@ -106,6 +108,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-family: 'Roboto Slab', serif;
         }
         
         .section-title:after {
@@ -132,6 +135,7 @@
         .admin-panel {
             background-color: #f8f9fa;
             min-height: 100vh;
+            display: none;
         }
         
         .sidebar {
@@ -195,12 +199,12 @@
         }
         
         .developer-signature {
-            font-family: 'Georgia', serif;
+            font-family: 'Roboto Slab', serif;
             font-style: italic;
             color: var(--bege);
             text-align: center;
             margin-top: 20px;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
         
         .rural-decoration {
@@ -212,6 +216,20 @@
         .rural-icon {
             color: var(--marrom);
             margin-right: 8px;
+        }
+        
+        .cart-item {
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+        
+        .delivery-option {
+            margin: 15px 0;
+        }
+        
+        .delivery-address {
+            display: none;
+            margin-top: 15px;
         }
         
         @media (max-width: 768px) {
@@ -252,7 +270,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="bi bi-flower1"></i> Coisa de Caipira Alimentos
+                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.appspot.com/o/logo.png?alt=media" height="40" class="me-2" alt="Logo Coisa de Caipira">
+                Coisa de Caipira Alimentos
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -277,7 +296,7 @@
                         <i class="bi bi-box-arrow-in-right"></i> Login
                     </button>
                     <button class="btn btn-light" onclick="showCart()">
-                        <i class="bi bi-cart3"></i> Carrinho
+                        <i class="bi bi-cart3"></i> Carrinho <span id="cartCount" class="badge bg-success">0</span>
                     </button>
                 </div>
             </div>
@@ -301,101 +320,8 @@
             <h2 class="text-center section-title animate-fadeIn">
                 <i class="bi bi-basket2-fill rural-icon"></i> Nossos Produtos
             </h2>
-            <div class="row">
-                <!-- Produto 1 - Quiabo -->
-                <div class="col-md-4 mb-4 animate-fadeIn delay-1">
-                    <div class="card h-100">
-                        <img src="https://bretas.vtexassets.com/arquivos/ids/216165/65e06e277a3ff7d4d495c7c3.jpg?v=638448038837800000" class="card-img-top" alt="Quiabo fresco">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-flower1 text-success"></i> Quiabo da Roça
-                            </h5>
-                            <p class="card-text">Quiabo fresco colhido diariamente, vendido em bandejas de 500g. Ideal para moquecas e guisados.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-success">R$ 4,50</span>
-                                <button class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-cart-plus"></i> Adicionar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Produto 2 - Jiló -->
-                <div class="col-md-4 mb-4 animate-fadeIn delay-2">
-                    <div class="card h-100">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfcJqpeMluHydFelvAgTk0ZoccP1SwRJcJXw&s" class="card-img-top" alt="Jiló fresco">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-flower1 text-success"></i> Jiló Selecionado
-                            </h5>
-                            <p class="card-text">Jiló colhido no ponto ideal, bandejas com 10 unidades médias. Perfeito para refogados.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-success">R$ 3,80</span>
-                                <button class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-cart-plus"></i> Adicionar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Produto 3 - Tomate -->
-                <div class="col-md-4 mb-4 animate-fadeIn delay-3">
-                    <div class="card h-100">
-                        <img src="https://img.freepik.com/fotos-gratis/tomates-vermelhos-frescos_2829-13449.jpg?semt=ais_hybrid&w=740" class="card-img-top" alt="Tomate fresco">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-flower1 text-success"></i> Tomate Caipira
-                            </h5>
-                            <p class="card-text">Tomate maduro e saboroso, cultivado sem agrotóxicos. Caixa com 1kg.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-success">R$ 12,90</span>
-                                <button class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-cart-plus"></i> Adicionar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Produto 4 - Fubá -->
-                <div class="col-md-6 mb-4 animate-fadeIn delay-1">
-                    <div class="card h-100">
-                        <img src="https://dw0jruhdg6fis.cloudfront.net/producao/31721311/G/fuba_1_kg_2.jpg" class="card-img-top" alt="Fubá artesanal">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-flower1 text-success"></i> Fubá Artesanal
-                            </h5>
-                            <p class="card-text">Fubá de moinho de pedra 100% artesanal, feito com milho crioulo. Pacote 1kg.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-success">R$ 8,50</span>
-                                <button class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-cart-plus"></i> Adicionar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Produto 5 - Feijão -->
-                <div class="col-md-6 mb-4 animate-fadeIn delay-2">
-                    <div class="card h-100">
-                        <img src="https://santaluzia.vtexassets.com/arquivos/ids/989423-800-auto?v=638255604719030000&width=800&height=auto&aspect=true" class="card-img-top" alt="Feijão orgânico">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-flower1 text-success"></i> Feijão Orgânico
-                            </h5>
-                            <p class="card-text">Feijão carioquinha cultivado organicamente. Pacote de 1kg.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="h5 text-success">R$ 9,90</span>
-                                <button class="btn btn-sm btn-outline-success">
-                                    <i class="bi bi-cart-plus"></i> Adicionar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="row" id="productsContainer">
+                <!-- Produtos serão carregados dinamicamente do Firebase -->
             </div>
         </div>
     </section>
@@ -408,7 +334,7 @@
             </h2>
             <div class="row align-items-center">
                 <div class="col-md-6 mb-4">
-                    <img src="https://images.unsplash.com/photo-1586771107445-d3ca888129ce?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" class="img-fluid rounded shadow" alt="Fazenda familiar">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.appspot.com/o/fazenda.jpg?alt=media" class="img-fluid rounded shadow" alt="Fazenda familiar">
                 </div>
                 <div class="col-md-6">
                     <h3 class="mb-4">Nossa História</h3>
@@ -486,13 +412,13 @@
                                 <p>Segunda a Sexta: 8h às 18h<br>Sábado: 8h às 12h</p>
                             </div>
                             <div class="d-flex">
-                                <a href="#" class="btn btn-outline-success me-2">
+                                <a href="https://wa.me/5531987716571" class="btn btn-outline-success me-2" target="_blank">
                                     <i class="bi bi-whatsapp"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-primary me-2">
+                                <a href="#" class="btn btn-outline-primary me-2" id="facebookLink">
                                     <i class="bi bi-facebook"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-info me-2">
+                                <a href="#" class="btn btn-outline-info me-2" id="instagramLink">
                                     <i class="bi bi-instagram"></i>
                                 </a>
                             </div>
@@ -533,7 +459,7 @@
             <hr>
             <div class="text-center">
                 <p class="mb-0">&copy; 2023 Coisa de Caipira Alimentos. Todos os direitos reservados.</p>
-                <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong> - <em>Aperfeiçoamos a Perfeição</em></p>
+                <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong> - Soluções Digitais</p>
             </div>
         </div>
     </footer>
@@ -589,11 +515,8 @@
                             <input type="password" class="form-control" id="registerPassword" required>
                         </div>
                         <div class="mb-3">
-                            <label for="registerType" class="form-label">Tipo de Conta</label>
-                            <select class="form-select" id="registerType">
-                                <option value="user">Usuário Comum</option>
-                                <option value="admin">Administrador</option>
-                            </select>
+                            <label for="registerPhone" class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" id="registerPhone" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Registrar</button>
                     </form>
@@ -602,9 +525,510 @@
         </div>
     </div>
 
+    <!-- Modal Carrinho -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-cart3"></i> Seu Carrinho</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItemsContainer">
+                        <!-- Itens do carrinho serão adicionados aqui -->
+                    </div>
+                    <div class="delivery-option">
+                        <h6>Opção de Entrega</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="deliveryOption" id="pickupOption" value="pickup" checked>
+                            <label class="form-check-label" for="pickupOption">
+                                Retirar no local
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="deliveryOption" id="deliveryOption" value="delivery">
+                            <label class="form-check-label" for="deliveryOption">
+                                Entregar no meu endereço
+                            </label>
+                        </div>
+                        <div id="deliveryAddressContainer" class="delivery-address mt-3">
+                            <label for="deliveryAddress" class="form-label">Endereço de Entrega</label>
+                            <textarea class="form-control" id="deliveryAddress" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="payment-option mt-4">
+                        <h6>Forma de Pagamento</h6>
+                        <select class="form-select" id="paymentMethod">
+                            <option value="mercado_pago">Mercado Pago</option>
+                            <option value="pix">PIX</option>
+                            <option value="dinheiro">Dinheiro na Entrega</option>
+                        </select>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <h5>Total: <span id="cartTotal">R$ 0,00</span></h5>
+                        <button class="btn btn-success" onclick="checkout()">Finalizar Pedido</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Área Administrativa -->
+    <div id="adminArea" class="admin-panel">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-3 col-lg-2 d-md-block sidebar">
+                    <div class="text-center p-3">
+                        <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.appspot.com/o/logo.png?alt=media" height="60" alt="Logo Admin" class="mb-3">
+                        <h5 class="text-white">Painel Administrativo</h5>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" id="dashboardLink">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="productsLink">
+                                <i class="bi bi-basket"></i> Produtos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="ordersLink">
+                                <i class="bi bi-receipt"></i> Pedidos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="customersLink">
+                                <i class="bi bi-people"></i> Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="reportsLink">
+                                <i class="bi bi-graph-up"></i> Relatórios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="settingsLink">
+                                <i class="bi bi-gear"></i> Configurações
+                            </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <a class="nav-link text-danger" href="#" onclick="logout()">
+                                <i class="bi bi-box-arrow-left"></i> Sair
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 py-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2" id="adminTitle">Dashboard</h1>
+                    </div>
+                    
+                    <!-- Dashboard Content -->
+                    <div id="dashboardContent">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-primary text-white">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Total de Pedidos</h5>
+                                        <h2 class="card-text" id="totalOrders">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-success text-white">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Produtos Cadastrados</h5>
+                                        <h2 class="card-text" id="totalProducts">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card bg-warning text-dark">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Clientes Cadastrados</h5>
+                                        <h2 class="card-text" id="totalCustomers">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5>Últimos Pedidos</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Data</th>
+                                                <th>Total</th>
+                                                <th>Status</th>
+                                                <th>Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recentOrdersTable">
+                                            <!-- Últimos pedidos serão carregados aqui -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Management Content -->
+                    <div id="productsContent" style="display: none;">
+                        <div class="d-flex justify-content-between mb-4">
+                            <h2>Gerenciamento de Produtos</h2>
+                            <button class="btn btn-primary" onclick="showAddProductModal()">
+                                <i class="bi bi-plus-circle"></i> Adicionar Produto
+                            </button>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Imagem</th>
+                                        <th>Nome</th>
+                                        <th>Preço</th>
+                                        <th>Estoque</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTable">
+                                    <!-- Produtos serão carregados aqui -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Orders Management Content -->
+                    <div id="ordersContent" style="display: none;">
+                        <h2 class="mb-4">Gerenciamento de Pedidos</h2>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="orderSearch" placeholder="Buscar pedido...">
+                            </div>
+                            <div class="col-md-4">
+                                <select class="form-select" id="orderStatusFilter">
+                                    <option value="">Todos os status</option>
+                                    <option value="pendente">Pendente</option>
+                                    <option value="processando">Processando</option>
+                                    <option value="enviado">Enviado</option>
+                                    <option value="entregue">Entregue</option>
+                                    <option value="cancelado">Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nº Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Data</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ordersTable">
+                                    <!-- Pedidos serão carregados aqui -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Customers Management Content -->
+                    <div id="customersContent" style="display: none;">
+                        <h2 class="mb-4">Gerenciamento de Clientes</h2>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>Telefone</th>
+                                        <th>Total Pedidos</th>
+                                        <th>Último Pedido</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="customersTable">
+                                    <!-- Clientes serão carregados aqui -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Reports Content -->
+                    <div id="reportsContent" style="display: none;">
+                        <h2 class="mb-4">Relatórios</h2>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Vendas por Período</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="salesChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5>Produtos Mais Vendidos</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="productsChart" height="300"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Gerar Relatório</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="reportForm">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label for="reportType" class="form-label">Tipo de Relatório</label>
+                                            <select class="form-select" id="reportType">
+                                                <option value="sales">Vendas</option>
+                                                <option value="products">Produtos</option>
+                                                <option value="customers">Clientes</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="startDate" class="form-label">Data Inicial</label>
+                                            <input type="date" class="form-control" id="startDate" required>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <label for="endDate" class="form-label">Data Final</label>
+                                            <input type="date" class="form-control" id="endDate" required>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                                    <button type="button" class="btn btn-success ms-2" onclick="exportToPDF()">
+                                        <i class="bi bi-file-earmark-pdf"></i> Exportar para PDF
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Settings Content -->
+                    <div id="settingsContent" style="display: none;">
+                        <h2 class="mb-4">Configurações</h2>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5>Informações da Loja</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="storeSettingsForm">
+                                    <div class="mb-3">
+                                        <label for="storeName" class="form-label">Nome da Loja</label>
+                                        <input type="text" class="form-control" id="storeName" value="Coisa de Caipira Alimentos" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="storeAddress" class="form-label">Endereço</label>
+                                        <textarea class="form-control" id="storeAddress" rows="3" required>Fazenda Santa Rosa, Zona Rural, Cidade - Estado</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="storePhone" class="form-label">Telefone</label>
+                                        <input type="tel" class="form-control" id="storePhone" value="(31) 98771-6571" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="storeEmail" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="storeEmail" value="contato@coisadecaipira.com.br" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="storeLogo" class="form-label">Logo</label>
+                                        <input type="file" class="form-control" id="storeLogo" accept="image/*">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Redes Sociais</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="socialMediaForm">
+                                    <div class="mb-3">
+                                        <label for="facebookUrl" class="form-label">Facebook</label>
+                                        <input type="url" class="form-control" id="facebookUrl" placeholder="https://facebook.com/sualoja">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="instagramUrl" class="form-label">Instagram</label>
+                                        <input type="url" class="form-control" id="instagramUrl" placeholder="https://instagram.com/sualoja">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="whatsappNumber" class="form-label">WhatsApp</label>
+                                        <input type="tel" class="form-control" id="whatsappNumber" placeholder="5531987716571">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Adicionar/Editar Produto -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalTitle">Adicionar Novo Produto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productName" class="form-label">Nome do Produto</label>
+                                    <input type="text" class="form-control" id="productName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productDescription" class="form-label">Descrição</label>
+                                    <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Preço (R$)</label>
+                                    <input type="number" step="0.01" class="form-control" id="productPrice" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="productStock" class="form-label">Estoque</label>
+                                    <input type="number" class="form-control" id="productStock" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productCategory" class="form-label">Categoria</label>
+                                    <select class="form-select" id="productCategory" required>
+                                        <option value="hortalicas">Hortaliças</option>
+                                        <option value="graos">Grãos</option>
+                                        <option value="outros">Outros</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Imagem do Produto</label>
+                                    <div class="product-image-upload" id="productImageUpload">
+                                        <i class="bi bi-image" style="font-size: 3rem;"></i>
+                                        <p>Clique para adicionar uma imagem</p>
+                                        <img id="productImagePreview" class="img-fluid d-none mt-2" style="max-height: 200px;">
+                                    </div>
+                                    <input type="file" id="productImageInput" accept="image/*" style="display: none;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Produto</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Pedido -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes do Pedido #<span id="orderNumber"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h6>Informações do Cliente</h6>
+                            <p id="customerInfo"></p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Informações do Pedido</h6>
+                            <p id="orderInfo"></p>
+                        </div>
+                    </div>
+                    
+                    <h6>Itens do Pedido</h6>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Preço Unitário</th>
+                                    <th>Quantidade</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orderItemsTable">
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h6>Endereço de Entrega</h6>
+                            <p id="deliveryAddressInfo"></p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <h5>Total: <span id="orderTotal"></span></h5>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label for="orderStatus" class="form-label">Status do Pedido</label>
+                        <select class="form-select" id="orderStatus">
+                            <option value="pendente">Pendente</option>
+                            <option value="processando">Processando</option>
+                            <option value="enviado">Enviado</option>
+                            <option value="entregue">Entregue</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="updateOrderStatus()">Atualizar Status</button>
+                    <button type="button" class="btn btn-success" onclick="printOrder()">
+                        <i class="bi bi-printer"></i> Imprimir Pedido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         // Configuração do Firebase
         const firebaseConfig = {
@@ -629,6 +1053,8 @@
 
         // Variáveis globais
         let currentUser = null;
+        let cart = [];
+        let currentOrderId = null;
         
         // Funções para mostrar/ocultar modais
         function showLoginModal() {
@@ -645,10 +1071,541 @@
         }
         
         function showCart() {
+            updateCartUI();
+            const cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
+            cartModal.show();
+        }
+        
+        function showAddProductModal() {
+            document.getElementById('productModalTitle').textContent = 'Adicionar Novo Produto';
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').value = '';
+            document.getElementById('productImagePreview').src = '';
+            document.getElementById('productImagePreview').classList.add('d-none');
+            
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            productModal.show();
+        }
+        
+        function showEditProductModal(productId) {
+            db.collection('products').doc(productId).get().then(doc => {
+                if (doc.exists) {
+                    const product = doc.data();
+                    document.getElementById('productModalTitle').textContent = 'Editar Produto';
+                    document.getElementById('productId').value = productId;
+                    document.getElementById('productName').value = product.name;
+                    document.getElementById('productDescription').value = product.description;
+                    document.getElementById('productPrice').value = product.price;
+                    document.getElementById('productStock').value = product.stock;
+                    document.getElementById('productCategory').value = product.category;
+                    
+                    if (product.imageUrl) {
+                        document.getElementById('productImagePreview').src = product.imageUrl;
+                        document.getElementById('productImagePreview').classList.remove('d-none');
+                    } else {
+                        document.getElementById('productImagePreview').classList.add('d-none');
+                    }
+                    
+                    const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+                    productModal.show();
+                }
+            });
+        }
+        
+        // Funções para o carrinho
+        function addToCart(productId) {
+            db.collection('products').doc(productId).get().then(doc => {
+                if (doc.exists) {
+                    const product = doc.data();
+                    const existingItem = cart.find(item => item.id === productId);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id: productId,
+                            name: product.name,
+                            price: product.price,
+                            image: product.imageUrl,
+                            quantity: 1
+                        });
+                    }
+                    
+                    updateCartCount();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Produto adicionado!',
+                        text: `${product.name} foi adicionado ao carrinho`,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+        
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+            updateCartCount();
+        }
+        
+        function updateQuantity(productId, quantity) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity = parseInt(quantity);
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+        
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cartItemsContainer');
+            const cartTotalElement = document.getElementById('cartTotal');
+            let total = 0;
+            
+            cartItemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-center">Seu carrinho está vazio</p>';
+                cartTotalElement.textContent = 'R$ 0,00';
+                return;
+            }
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <div class="row align-items-center">
+                        <div class="col-3">
+                            <img src="${item.image || 'https://via.placeholder.com/80'}" class="img-thumbnail" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover;">
+                        </div>
+                        <div class="col-5">
+                            <h6>${item.name}</h6>
+                            <p class="mb-0">R$ ${item.price.toFixed(2)}</p>
+                        </div>
+                        <div class="col-2">
+                            <input type="number" class="form-control" value="${item.quantity}" min="1" onchange="updateQuantity('${item.id}', this.value)">
+                        </div>
+                        <div class="col-2 text-end">
+                            <button class="btn btn-sm btn-danger" onclick="removeFromCart('${item.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+            
+            cartTotalElement.textContent = `R$ ${total.toFixed(2)}`;
+        }
+        
+        function updateCartCount() {
+            const count = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+        
+        // Funções para pedidos
+        function checkout() {
+            if (!currentUser) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Faça login para continuar',
+                    text: 'Você precisa estar logado para finalizar o pedido',
+                    showCancelButton: true,
+                    confirmButtonText: 'Fazer login',
+                    cancelButtonText: 'Cancelar'
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        showLoginModal();
+                    }
+                });
+                return;
+            }
+            
+            if (cart.length === 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Carrinho vazio',
+                    text: 'Adicione produtos ao carrinho antes de finalizar o pedido'
+                });
+                return;
+            }
+            
+            const deliveryOption = document.querySelector('input[name="deliveryOption"]:checked').value;
+            const deliveryAddress = deliveryOption === 'delivery' ? document.getElementById('deliveryAddress').value : 'Retirada no local';
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            
+            const orderData = {
+                userId: currentUser.uid,
+                items: cart,
+                total: cart.reduce((total, item) => total + (item.price * item.quantity), 0),
+                deliveryOption: deliveryOption,
+                deliveryAddress: deliveryAddress,
+                paymentMethod: paymentMethod,
+                status: 'pendente',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            db.collection('orders').add(orderData)
+                .then(docRef => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Pedido realizado!',
+                        html: `Seu pedido #${docRef.id} foi registrado com sucesso.<br>Em breve entraremos em contato.`,
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        cart = [];
+                        updateCartCount();
+                        const cartModal = bootstrap.Modal.getInstance(document.getElementById('cartModal'));
+                        cartModal.hide();
+                    });
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao registrar pedido',
+                        text: error.message
+                    });
+                });
+        }
+        
+        // Funções administrativas
+        function loadAdminDashboard() {
+            // Contagem de pedidos
+            db.collection('orders').get().then(snapshot => {
+                document.getElementById('totalOrders').textContent = snapshot.size;
+            });
+            
+            // Contagem de produtos
+            db.collection('products').get().then(snapshot => {
+                document.getElementById('totalProducts').textContent = snapshot.size;
+            });
+            
+            // Contagem de clientes
+            db.collection('users').where('type', '==', 'user').get().then(snapshot => {
+                document.getElementById('totalCustomers').textContent = snapshot.size;
+            });
+            
+            // Últimos pedidos
+            db.collection('orders').orderBy('createdAt', 'desc').limit(5).get().then(snapshot => {
+                const tableBody = document.getElementById('recentOrdersTable');
+                tableBody.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const order = doc.data();
+                    const row = document.createElement('tr');
+                    
+                    // Formatar data
+                    let orderDate = '---';
+                    if (order.createdAt) {
+                        orderDate = order.createdAt.toDate().toLocaleDateString();
+                    }
+                    
+                    // Formatar status
+                    let statusClass = '';
+                    switch (order.status) {
+                        case 'pendente': statusClass = 'text-warning'; break;
+                        case 'processando': statusClass = 'text-primary'; break;
+                        case 'enviado': statusClass = 'text-info'; break;
+                        case 'entregue': statusClass = 'text-success'; break;
+                        case 'cancelado': statusClass = 'text-danger'; break;
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${doc.id.substring(0, 8)}</td>
+                        <td>${order.userId.substring(0, 8)}...</td>
+                        <td>${orderDate}</td>
+                        <td>R$ ${order.total.toFixed(2)}</td>
+                        <td class="${statusClass}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewOrder('${doc.id}')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+        
+        function loadProductsManagement() {
+            db.collection('products').get().then(snapshot => {
+                const tableBody = document.getElementById('productsTable');
+                tableBody.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const product = doc.data();
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td><img src="${product.imageUrl || 'https://via.placeholder.com/50'}" width="50" height="50" style="object-fit: cover;"></td>
+                        <td>${product.name}</td>
+                        <td>R$ ${product.price.toFixed(2)}</td>
+                        <td>${product.stock}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary me-1" onclick="showEditProductModal('${doc.id}')">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${doc.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+        
+        function loadOrdersManagement() {
+            db.collection('orders').orderBy('createdAt', 'desc').get().then(snapshot => {
+                const tableBody = document.getElementById('ordersTable');
+                tableBody.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const order = doc.data();
+                    
+                    // Formatar data
+                    let orderDate = '---';
+                    if (order.createdAt) {
+                        orderDate = order.createdAt.toDate().toLocaleDateString();
+                    }
+                    
+                    // Formatar status
+                    let statusClass = '';
+                    switch (order.status) {
+                        case 'pendente': statusClass = 'text-warning'; break;
+                        case 'processando': statusClass = 'text-primary'; break;
+                        case 'enviado': statusClass = 'text-info'; break;
+                        case 'entregue': statusClass = 'text-success'; break;
+                        case 'cancelado': statusClass = 'text-danger'; break;
+                    }
+                    
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${doc.id.substring(0, 8)}</td>
+                        <td>${order.userId.substring(0, 8)}...</td>
+                        <td>${orderDate}</td>
+                        <td>R$ ${order.total.toFixed(2)}</td>
+                        <td class="${statusClass}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewOrder('${doc.id}')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+        
+        function loadCustomersManagement() {
+            db.collection('users').where('type', '==', 'user').get().then(snapshot => {
+                const tableBody = document.getElementById('customersTable');
+                tableBody.innerHTML = '';
+                
+                snapshot.forEach(doc => {
+                    const user = doc.data();
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone || '---'}</td>
+                        <td>0</td>
+                        <td>---</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+        }
+        
+        function viewOrder(orderId) {
+            currentOrderId = orderId;
+            
+            db.collection('orders').doc(orderId).get().then(doc => {
+                if (doc.exists) {
+                    const order = doc.data();
+                    
+                    // Preencher informações do pedido
+                    document.getElementById('orderNumber').textContent = orderId;
+                    
+                    // Buscar informações do cliente
+                    db.collection('users').doc(order.userId).get().then(userDoc => {
+                        if (userDoc.exists) {
+                            const user = userDoc.data();
+                            document.getElementById('customerInfo').innerHTML = `
+                                <strong>Nome:</strong> ${user.name}<br>
+                                <strong>Email:</strong> ${user.email}<br>
+                                <strong>Telefone:</strong> ${user.phone || '---'}
+                            `;
+                        } else {
+                            document.getElementById('customerInfo').innerHTML = `
+                                <strong>Cliente não encontrado</strong>
+                            `;
+                        }
+                    });
+                    
+                    // Informações do pedido
+                    let orderDate = '---';
+                    if (order.createdAt) {
+                        orderDate = order.createdAt.toDate().toLocaleDateString();
+                    }
+                    
+                    document.getElementById('orderInfo').innerHTML = `
+                        <strong>Data:</strong> ${orderDate}<br>
+                        <strong>Status:</strong> ${order.status}<br>
+                        <strong>Pagamento:</strong> ${order.paymentMethod}<br>
+                        <strong>Entrega:</strong> ${order.deliveryOption === 'delivery' ? 'Entrega' : 'Retirada'}
+                    `;
+                    
+                    // Itens do pedido
+                    const itemsTable = document.getElementById('orderItemsTable');
+                    itemsTable.innerHTML = '';
+                    
+                    order.items.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.name}</td>
+                            <td>R$ ${item.price.toFixed(2)}</td>
+                            <td>${item.quantity}</td>
+                            <td>R$ ${(item.price * item.quantity).toFixed(2)}</td>
+                        `;
+                        itemsTable.appendChild(row);
+                    });
+                    
+                    // Endereço de entrega
+                    document.getElementById('deliveryAddressInfo').textContent = 
+                        order.deliveryAddress || 'Retirada no local';
+                    
+                    // Total
+                    document.getElementById('orderTotal').textContent = `R$ ${order.total.toFixed(2)}`;
+                    
+                    // Status
+                    document.getElementById('orderStatus').value = order.status;
+                    
+                    // Mostrar modal
+                    const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+                    orderModal.show();
+                }
+            });
+        }
+        
+        function updateOrderStatus() {
+            const newStatus = document.getElementById('orderStatus').value;
+            
+            db.collection('orders').doc(currentOrderId).update({
+                status: newStatus
+            }).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Status atualizado!',
+                    timer: 1500
+                });
+                
+                // Atualizar listagens
+                loadAdminDashboard();
+                loadOrdersManagement();
+            }).catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao atualizar status',
+                    text: error.message
+                });
+            });
+        }
+        
+        function printOrder() {
+            // Implementar lógica de impressão ou geração de PDF
             Swal.fire({
-                title: 'Carrinho de Compras',
-                text: 'Funcionalidade em desenvolvimento',
-                icon: 'info'
+                icon: 'info',
+                title: 'Funcionalidade em desenvolvimento',
+                text: 'A impressão do pedido será implementada em breve'
+            });
+        }
+        
+        function exportToPDF() {
+            // Implementar lógica de exportação para PDF
+            Swal.fire({
+                icon: 'info',
+                title: 'Funcionalidade em desenvolvimento',
+                text: 'A exportação para PDF será implementada em breve'
+            });
+        }
+        
+        function deleteProduct(productId) {
+            Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você não poderá reverter isso!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, deletar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    db.collection('products').doc(productId).delete()
+                        .then(() => {
+                            Swal.fire(
+                                'Deletado!',
+                                'O produto foi removido.',
+                                'success'
+                            );
+                            loadProductsManagement();
+                        })
+                        .catch(error => {
+                            Swal.fire(
+                                'Erro!',
+                                'Ocorreu um erro ao deletar o produto.',
+                                'error'
+                            );
+                        });
+                }
+            });
+        }
+        
+        // Carregar produtos do Firebase
+        function loadProducts() {
+            db.collection('products').get().then(snapshot => {
+                const container = document.getElementById('productsContainer');
+                container.innerHTML = '';
+                
+                let delay = 1;
+                snapshot.forEach(doc => {
+                    const product = doc.data();
+                    const col = document.createElement('div');
+                    col.className = `col-md-4 mb-4 animate-fadeIn delay-${delay}`;
+                    
+                    col.innerHTML = `
+                        <div class="card h-100">
+                            <img src="${product.imageUrl || 'https://via.placeholder.com/300'}" class="card-img-top" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="bi bi-flower1 text-success"></i> ${product.name}
+                                </h5>
+                                <p class="card-text">${product.description}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="h5 text-success">R$ ${product.price.toFixed(2)}</span>
+                                    <button class="btn btn-sm btn-outline-success" onclick="addToCart('${doc.id}')">
+                                        <i class="bi bi-cart-plus"></i> Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    container.appendChild(col);
+                    delay = delay === 3 ? 1 : delay + 1;
+                });
             });
         }
         
@@ -664,15 +1621,22 @@
                 .then((userCredential) => {
                     currentUser = userCredential.user;
                     
-                    if (email === 'admin@coisadecaipira.com') {
+                    // Verificar se é admin
+                    return db.collection('users').doc(userCredential.user.uid).get();
+                })
+                .then(userDoc => {
+                    if (userDoc.exists && userDoc.data().type === 'admin') {
                         // Esconder a área pública e mostrar a área admin
                         document.querySelector('body > :not(#adminArea)').style.display = 'none';
                         document.getElementById('adminArea').style.display = 'block';
+                        
+                        // Carregar dados administrativos
+                        loadAdminDashboard();
                     }
                     
                     Swal.fire({
                         icon: 'success',
-                        title: 'Login realizado!',
+                        title: 'Login realizado com sucesso!',
                         timer: 2000
                     });
                     
@@ -695,23 +1659,24 @@
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
-            const type = document.getElementById('registerType').value;
+            const phone = document.getElementById('registerPhone').value;
             
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     // Adiciona dados adicionais do usuário
-                    return firebase.firestore().collection('users').doc(userCredential.user.uid).set({
+                    return db.collection('users').doc(userCredential.user.uid).set({
                         name: name,
                         email: email,
-                        type: type,
+                        phone: phone,
+                        type: 'user',
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
                 })
                 .then(() => {
                     Swal.fire({
                         icon: 'success',
-                        title: 'Conta criada!',
-                        text: 'Sua conta foi registrada com sucesso',
+                        title: 'Conta criada com sucesso!',
+                        text: 'Agora você pode fazer login e realizar pedidos.',
                         timer: 2000
                     });
                     
@@ -727,6 +1692,242 @@
                 });
         });
         
+        // Manipulação do formulário de produto
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const productId = document.getElementById('productId').value;
+            const name = document.getElementById('productName').value;
+            const description = document.getElementById('productDescription').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const category = document.getElementById('productCategory').value;
+            const imageFile = document.getElementById('productImageInput').files[0];
+            
+            const productData = {
+                name: name,
+                description: description,
+                price: price,
+                stock: stock,
+                category: category,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // Se é um novo produto, adiciona a data de criação
+            if (!productId) {
+                productData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+            }
+            
+            let productPromise;
+            
+            if (productId) {
+                // Atualizar produto existente
+                productPromise = db.collection('products').doc(productId).update(productData);
+            } else {
+                // Adicionar novo produto
+                productPromise = db.collection('products').add(productData).then(docRef => {
+                    return docRef.id; // Retorna o ID do novo produto
+                });
+            }
+            
+            productPromise.then(productRef => {
+                const actualProductId = productId || productRef;
+                
+                // Se há uma imagem para upload
+                if (imageFile) {
+                    const storageRef = storage.ref(`products/${actualProductId}`);
+                    const uploadTask = storageRef.put(imageFile);
+                    
+                    return uploadTask.then(snapshot => {
+                        return snapshot.ref.getDownloadURL();
+                    }).then(downloadURL => {
+                        return db.collection('products').doc(actualProductId).update({
+                            imageUrl: downloadURL
+                        });
+                    });
+                }
+                
+                return Promise.resolve();
+            }).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Produto salvo com sucesso!',
+                    timer: 1500
+                });
+                
+                // Atualizar listagens
+                loadProducts();
+                loadProductsManagement();
+                
+                // Fechar modal
+                const productModal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
+                productModal.hide();
+            }).catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao salvar produto',
+                    text: error.message
+                });
+            });
+        });
+        
+        // Configurar upload de imagem do produto
+        document.getElementById('productImageUpload').addEventListener('click', function() {
+            document.getElementById('productImageInput').click();
+        });
+        
+        document.getElementById('productImageInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('productImagePreview');
+                    preview.src = event.target.result;
+                    preview.classList.remove('d-none');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        
+        // Configurar opção de entrega
+        document.querySelectorAll('input[name="deliveryOption"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const addressContainer = document.getElementById('deliveryAddressContainer');
+                if (this.value === 'delivery') {
+                    addressContainer.style.display = 'block';
+                } else {
+                    addressContainer.style.display = 'none';
+                }
+            });
+        });
+        
+        // Carregar configurações de redes sociais
+        function loadSocialMediaSettings() {
+            db.collection('settings').doc('socialMedia').get().then(doc => {
+                if (doc.exists) {
+                    const data = doc.data();
+                    document.getElementById('facebookUrl').value = data.facebook || '';
+                    document.getElementById('instagramUrl').value = data.instagram || '';
+                    document.getElementById('whatsappNumber').value = data.whatsapp || '';
+                    
+                    // Atualizar links na página principal
+                    if (data.facebook) {
+                        document.getElementById('facebookLink').href = data.facebook;
+                    }
+                    if (data.instagram) {
+                        document.getElementById('instagramLink').href = data.instagram;
+                    }
+                }
+            });
+        }
+        
+        // Salvar configurações de redes sociais
+        document.getElementById('socialMediaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const facebook = document.getElementById('facebookUrl').value;
+            const instagram = document.getElementById('instagramUrl').value;
+            const whatsapp = document.getElementById('whatsappNumber').value;
+            
+            db.collection('settings').doc('socialMedia').set({
+                facebook: facebook,
+                instagram: instagram,
+                whatsapp: whatsapp
+            }).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Configurações salvas com sucesso!',
+                    timer: 1500
+                });
+                
+                // Atualizar links na página principal
+                if (facebook) {
+                    document.getElementById('facebookLink').href = facebook;
+                }
+                if (instagram) {
+                    document.getElementById('instagramLink').href = instagram;
+                }
+            }).catch(error => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao salvar configurações',
+                    text: error.message
+                });
+            });
+        });
+        
+        // Navegação no painel admin
+        document.getElementById('dashboardLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminTitle').textContent = 'Dashboard';
+            document.getElementById('dashboardContent').style.display = 'block';
+            document.getElementById('productsContent').style.display = 'none';
+            document.getElementById('ordersContent').style.display = 'none';
+            document.getElementById('customersContent').style.display = 'none';
+            document.getElementById('reportsContent').style.display = 'none';
+            document.getElementById('settingsContent').style.display = 'none';
+            loadAdminDashboard();
+        });
+        
+        document.getElementById('productsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminTitle').textContent = 'Gerenciamento de Produtos';
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('productsContent').style.display = 'block';
+            document.getElementById('ordersContent').style.display = 'none';
+            document.getElementById('customersContent').style.display = 'none';
+            document.getElementById('reportsContent').style.display = 'none';
+            document.getElementById('settingsContent').style.display = 'none';
+            loadProductsManagement();
+        });
+        
+        document.getElementById('ordersLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminTitle').textContent = 'Gerenciamento de Pedidos';
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('productsContent').style.display = 'none';
+            document.getElementById('ordersContent').style.display = 'block';
+            document.getElementById('customersContent').style.display = 'none';
+            document.getElementById('reportsContent').style.display = 'none';
+            document.getElementById('settingsContent').style.display = 'none';
+            loadOrdersManagement();
+        });
+        
+        document.getElementById('customersLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminTitle').textContent = 'Gerenciamento de Clientes';
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('productsContent').style.display = 'none';
+            document.getElementById('ordersContent').style.display = 'none';
+            document.getElementById('customersContent').style.display = 'block';
+            document.getElementById('reportsContent').style.display = 'none';
+            document.getElementById('settingsContent').style.display = 'none';
+            loadCustomersManagement();
+        });
+        
+        document.getElementById('reportsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminTitle').textContent = 'Relatórios';
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('productsContent').style.display = 'none';
+            document.getElementById('ordersContent').style.display = 'none';
+            document.getElementById('customersContent').style.display = 'none';
+            document.getElementById('reportsContent').style.display = 'block';
+            document.getElementById('settingsContent').style.display = 'none';
+        });
+        
+        document.getElementById('settingsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('adminTitle').textContent = 'Configurações';
+            document.getElementById('dashboardContent').style.display = 'none';
+            document.getElementById('productsContent').style.display = 'none';
+            document.getElementById('ordersContent').style.display = 'none';
+            document.getElementById('customersContent').style.display = 'none';
+            document.getElementById('reportsContent').style.display = 'none';
+            document.getElementById('settingsContent').style.display = 'block';
+            loadSocialMediaSettings();
+        });
+        
         // Função de logout
         function logout() {
             firebase.auth().signOut().then(() => {
@@ -736,7 +1937,7 @@
                 
                 Swal.fire({
                     icon: 'success',
-                    title: 'Logout realizado!',
+                    title: 'Logout realizado com sucesso!',
                     timer: 2000
                 });
             });
@@ -747,13 +1948,29 @@
             if (user) {
                 currentUser = user;
                 console.log("Usuário logado:", user.email);
+                
+                // Verificar se é admin
+                db.collection('users').doc(user.uid).get().then(userDoc => {
+                    if (userDoc.exists && userDoc.data().type === 'admin') {
+                        document.querySelector('body > :not(#adminArea)').style.display = 'none';
+                        document.getElementById('adminArea').style.display = 'block';
+                        loadAdminDashboard();
+                    }
+                });
             } else {
                 console.log("Nenhum usuário logado");
             }
         });
         
-        // Inicialização de animações
+        // Inicialização da página
         document.addEventListener('DOMContentLoaded', function() {
+            // Carregar produtos
+            loadProducts();
+            
+            // Carregar configurações de redes sociais
+            loadSocialMediaSettings();
+            
+            // Configurar animações
             const animateElements = document.querySelectorAll('.animate-fadeIn');
             
             const observer = new IntersectionObserver((entries) => {
