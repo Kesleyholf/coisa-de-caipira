@@ -6,11 +6,11 @@
     <title>Coisa de Caipira Alimentos - Produtos da Roça</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --verde-primario: #2e7d32;
@@ -24,18 +24,66 @@
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f8f9fa;
+            padding-top: 80px; /* Espaço para o cabeçalho fixo */
         }
         
+        /* Cabeçalho moderno e responsivo */
         .navbar {
             background: linear-gradient(135deg, var(--verde-escuro), var(--verde-primario));
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            padding: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            padding: 5px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .navbar-brand {
             font-weight: 700;
             color: white !important;
-            font-size: 1.5rem;
             font-family: 'Roboto Slab', serif;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand img {
+            height: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled .navbar-brand img {
+            height: 40px;
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 8px 15px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 70%;
         }
         
         .btn-primary {
@@ -50,6 +98,44 @@
             transform: translateY(-2px);
         }
         
+        /* Login diferenciado */
+        .login-options {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .login-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        
+        .login-btn:hover::before {
+            left: 0;
+        }
+        
+        .admin-btn {
+            background-color: #6c757d;
+            border-color: #5a6268;
+        }
+        
+        .admin-btn:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        
+        /* Cards de produtos */
         .card {
             transition: transform 0.3s, box-shadow 0.3s;
             border-radius: 15px;
@@ -57,6 +143,7 @@
             border: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
             background-color: white;
+            margin-bottom: 20px;
         }
         
         .card:hover {
@@ -65,7 +152,7 @@
         }
         
         .card-img-top {
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             transition: transform 0.5s;
         }
@@ -74,12 +161,13 @@
             transform: scale(1.05);
         }
         
+        /* Hero section */
         .hero-section {
             background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.appspot.com/o/banner.jpg?alt=media');
             background-size: cover;
             background-position: center;
             color: white;
-            padding: 120px 0;
+            padding: 150px 0;
             margin-bottom: 30px;
             text-align: center;
             position: relative;
@@ -100,6 +188,7 @@
             z-index: 1;
         }
         
+        /* Seções */
         .section-title {
             color: var(--verde-escuro);
             position: relative;
@@ -123,15 +212,7 @@
             border-radius: 2px;
         }
         
-        .login-container {
-            max-width: 400px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        
+        /* Área administrativa */
         .admin-panel {
             background-color: #f8f9fa;
             min-height: 100vh;
@@ -144,6 +225,8 @@
             min-height: 100vh;
             padding: 20px 0;
             box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 250px;
         }
         
         .sidebar .nav-link {
@@ -155,7 +238,8 @@
             font-weight: 500;
         }
         
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+        .sidebar .nav-link:hover, 
+        .sidebar .nav-link.active {
             background-color: rgba(255,255,255,0.15);
             color: white;
             transform: translateX(5px);
@@ -166,21 +250,12 @@
             font-size: 1.1rem;
         }
         
-        .product-image-upload {
-            border: 2px dashed #ddd;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            transition: all 0.3s;
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
         }
         
-        .product-image-upload:hover {
-            border-color: var(--verde-claro);
-            background-color: rgba(139, 195, 74, 0.05);
-        }
-        
+        /* Rodapé */
         .footer {
             background: linear-gradient(135deg, var(--verde-escuro), var(--verde-primario));
             color: white;
@@ -198,59 +273,7 @@
             color: white;
         }
         
-        .developer-signature {
-            font-family: 'Roboto Slab', serif;
-            font-style: italic;
-            color: var(--bege);
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-        
-        .rural-decoration {
-            position: absolute;
-            opacity: 0.1;
-            z-index: 0;
-        }
-        
-        .rural-icon {
-            color: var(--marrom);
-            margin-right: 8px;
-        }
-        
-        .cart-item {
-            border-bottom: 1px solid #eee;
-            padding: 10px 0;
-        }
-        
-        .delivery-option {
-            margin: 15px 0;
-        }
-        
-        .delivery-address {
-            display: none;
-            margin-top: 15px;
-        }
-        
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 80px 0;
-            }
-            
-            .hero-section h1 {
-                font-size: 2rem;
-            }
-            
-            .sidebar {
-                min-height: auto;
-            }
-            
-            .card {
-                margin-bottom: 20px;
-            }
-        }
-        
-        /* Animations */
+        /* Animações */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -263,15 +286,65 @@
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
         .delay-3 { animation-delay: 0.6s; }
+        
+        /* Responsividade */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 220px;
+            }
+            .main-content {
+                margin-left: 220px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 100px 0;
+            }
+            
+            .sidebar {
+                position: static;
+                width: 100%;
+                min-height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .navbar-brand img {
+                height: 40px;
+            }
+            
+            .login-options {
+                flex-direction: column;
+                gap: 5px;
+                margin-top: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 80px 0;
+            }
+            
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            
+            .card-img-top {
+                height: 150px;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- Navbar moderno -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/logo%20coisacaipira.jpg?alt=media&token=b02ab355-f0ae-4875-ba84-352fec899b50"
-              </a>
+                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/logo%20coisacaipira.jpg?alt=media&token=b02ab355-f0ae-4875-ba84-352fec899b50" alt="Coisa de Caipira" class="img-fluid">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -290,12 +363,15 @@
                         <a class="nav-link" href="#contato"><i class="bi bi-telephone"></i> Contato</a>
                     </li>
                 </ul>
-                <div class="d-flex">
-                    <button class="btn btn-outline-light me-2" onclick="showLoginModal()">
-                        <i class="bi bi-box-arrow-in-right"></i> Login
+                <div class="d-flex login-options">
+                    <button class="btn btn-outline-light login-btn me-2" onclick="showLoginModal('user')">
+                        <i class="bi bi-person"></i> Login Usuário
                     </button>
-                    <button class="btn btn-light" onclick="showCart()">
-                        <i class="bi bi-cart3"></i> Carrinho <span id="cartCount" class="badge bg-success">0</span>
+                    <button class="btn btn-outline-light login-btn admin-btn" onclick="showLoginModal('admin')">
+                        <i class="bi bi-shield-lock"></i> Área Admin
+                    </button>
+                    <button class="btn btn-light ms-2" onclick="showCart()">
+                        <i class="bi bi-cart3"></i> <span id="cartCount" class="badge bg-success">0</span>
                     </button>
                 </div>
             </div>
@@ -317,7 +393,7 @@
     <section id="produtos" class="py-5">
         <div class="container">
             <h2 class="text-center section-title animate-fadeIn">
-                <i class="bi bi-basket2-fill rural-icon"></i> Nossos Produtos
+                <i class="bi bi-basket2-fill"></i> Nossos Produtos
             </h2>
             <div class="row" id="productsContainer">
                 <!-- Produtos serão carregados dinamicamente do Firebase -->
@@ -329,7 +405,7 @@
     <section id="sobre" class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center section-title">
-                <i class="bi bi-info-circle-fill rural-icon"></i> Sobre Nós
+                <i class="bi bi-info-circle-fill"></i> Sobre Nós
             </h2>
             <div class="row align-items-center">
                 <div class="col-md-6 mb-4">
@@ -365,7 +441,7 @@
     <section id="contato" class="py-5">
         <div class="container">
             <h2 class="text-center section-title">
-                <i class="bi bi-chat-left-text-fill rural-icon"></i> Fale Conosco
+                <i class="bi bi-chat-left-text-fill"></i> Fale Conosco
             </h2>
             <div class="row">
                 <div class="col-md-6 mb-4">
@@ -414,10 +490,10 @@
                                 <a href="https://wa.me/5531987716571" class="btn btn-outline-success me-2" target="_blank">
                                     <i class="bi bi-whatsapp"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-primary me-2" id="https://www.facebook.com/jeitomineiro.alimentos">
+                                <a href="https://www.facebook.com/jeitomineiro.alimentos" class="btn btn-outline-primary me-2" target="_blank">
                                     <i class="bi bi-facebook"></i>
                                 </a>
-                                <a href="#" class="btn btn-outline-info me-2" id="https://www.instagram.com/alimentoscoisadecaipira?igsh=MWV2aGViejd1cTZpZw==">
+                                <a href="https://www.instagram.com/alimentoscoisadecaipira?igsh=MWV2aGViejd1cTZpZw==" class="btn btn-outline-info me-2" target="_blank">
                                     <i class="bi bi-instagram"></i>
                                 </a>
                             </div>
@@ -468,7 +544,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Login</h5>
+                    <h5 class="modal-title" id="loginModalTitle">Login</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -484,6 +560,9 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <button type="submit" class="btn btn-primary">Entrar</button>
                             <a href="#" onclick="showRegisterModal()">Criar conta</a>
+                        </div>
+                        <div class="mt-3 text-end">
+                            <a href="#" onclick="showDeleteAccountModal()">Excluir minha conta</a>
                         </div>
                     </form>
                 </div>
@@ -518,6 +597,35 @@
                             <input type="tel" class="form-control" id="registerPhone" required>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Registrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para excluir conta -->
+    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Excluir Conta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.</p>
+                    <form id="deleteAccountForm">
+                        <div class="mb-3">
+                            <label for="deleteEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="deleteEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deletePassword" class="form-label">Senha</label>
+                            <input type="password" class="form-control" id="deletePassword" required>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Excluir Conta</button>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -622,7 +730,7 @@
                 </div>
                 
                 <!-- Main Content -->
-                <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 py-4">
+                <div class="col-md-9 col-lg-10 main-content">
                     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2" id="adminTitle">Dashboard</h1>
                     </div>
@@ -1054,19 +1162,30 @@
         let currentUser = null;
         let cart = [];
         let currentOrderId = null;
+        let loginType = 'user'; // 'user' ou 'admin'
         
         // Funções para mostrar/ocultar modais
-        function showLoginModal() {
+        function showLoginModal(type) {
+            loginType = type || 'user';
             const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            document.getElementById('loginModalTitle').textContent = type === 'admin' ? 'Login Administrativo' : 'Login Usuário';
             loginModal.show();
         }
         
         function showRegisterModal() {
             const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-            loginModal.hide();
+            if (loginModal) loginModal.hide();
             
             const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
             registerModal.show();
+        }
+        
+        function showDeleteAccountModal() {
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            if (loginModal) loginModal.hide();
+            
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteAccountModal'));
+            deleteModal.show();
         }
         
         function showCart() {
@@ -1268,6 +1387,56 @@
                     Swal.fire({
                         icon: 'error',
                         title: 'Erro ao registrar pedido',
+                        text: error.message
+                    });
+                });
+        }
+        
+        // Função para excluir conta de usuário
+        function deleteAccount() {
+            const email = document.getElementById('deleteEmail').value;
+            const password = document.getElementById('deletePassword').value;
+            
+            if (!email || !password) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Por favor, preencha todos os campos'
+                });
+                return;
+            }
+            
+            // Primeiro autenticar o usuário
+            const credential = firebase.auth.EmailAuthProvider.credential(email, password);
+            
+            currentUser.reauthenticateWithCredential(credential)
+                .then(() => {
+                    // Depois excluir a conta do Firebase Auth
+                    return currentUser.delete();
+                })
+                .then(() => {
+                    // Excluir os dados do usuário do Firestore
+                    return db.collection('users').doc(currentUser.uid).delete();
+                })
+                .then(() => {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Conta excluída com sucesso!',
+                        text: 'Sua conta e todos os dados associados foram removidos.',
+                        timer: 2000
+                    });
+                    
+                    // Fechar o modal
+                    const deleteModal = bootstrap.Modal.getInstance(document.getElementById('deleteAccountModal'));
+                    deleteModal.hide();
+                    
+                    // Fazer logout
+                    logout();
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao excluir conta',
                         text: error.message
                     });
                 });
@@ -1624,23 +1793,35 @@
                     return db.collection('users').doc(userCredential.user.uid).get();
                 })
                 .then(userDoc => {
-                    if (userDoc.exists && userDoc.data().type === 'admin') {
-                        // Esconder a área pública e mostrar a área admin
-                        document.querySelector('body > :not(#adminArea)').style.display = 'none';
-                        document.getElementById('adminArea').style.display = 'block';
+                    if (userDoc.exists) {
+                        const userData = userDoc.data();
                         
-                        // Carregar dados administrativos
-                        loadAdminDashboard();
+                        if (loginType === 'admin' && userData.type !== 'admin') {
+                            // Usuário tentando acessar área admin sem permissão
+                            firebase.auth().signOut();
+                            throw new Error('Acesso restrito a administradores');
+                        }
+                        
+                        if (loginType === 'admin' && userData.type === 'admin') {
+                            // Esconder a área pública e mostrar a área admin
+                            document.querySelector('body > :not(#adminArea)').style.display = 'none';
+                            document.getElementById('adminArea').style.display = 'block';
+                            
+                            // Carregar dados administrativos
+                            loadAdminDashboard();
+                        }
+                        
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Login realizado com sucesso!',
+                            timer: 2000
+                        });
+                        
+                        const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                        loginModal.hide();
+                    } else {
+                        throw new Error('Usuário não encontrado');
                     }
-                    
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Login realizado com sucesso!',
-                        timer: 2000
-                    });
-                    
-                    const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
-                    loginModal.hide();
                 })
                 .catch((error) => {
                     Swal.fire({
@@ -1689,6 +1870,12 @@
                         text: error.message
                     });
                 });
+        });
+        
+        // Manipulação do formulário para excluir conta
+        document.getElementById('deleteAccountForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            deleteAccount();
         });
         
         // Manipulação do formulário de produto
@@ -1808,14 +1995,6 @@
                     document.getElementById('facebookUrl').value = data.facebook || '';
                     document.getElementById('instagramUrl').value = data.instagram || '';
                     document.getElementById('whatsappNumber').value = data.whatsapp || '';
-                    
-                    // Atualizar links na página principal
-                    if (data.facebook) {
-                        document.getElementById('facebookLink').href = data.facebook;
-                    }
-                    if (data.instagram) {
-                        document.getElementById('instagramLink').href = data.instagram;
-                    }
                 }
             });
         }
@@ -1838,14 +2017,6 @@
                     title: 'Configurações salvas com sucesso!',
                     timer: 1500
                 });
-                
-                // Atualizar links na página principal
-                if (facebook) {
-                    document.getElementById('facebookLink').href = facebook;
-                }
-                if (instagram) {
-                    document.getElementById('instagramLink').href = instagram;
-                }
             }).catch(error => {
                 Swal.fire({
                     icon: 'error',
@@ -1961,6 +2132,16 @@
             }
         });
         
+        // Efeito de scroll no navbar
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
         // Inicialização da página
         document.addEventListener('DOMContentLoaded', function() {
             // Carregar produtos
@@ -1987,6 +2168,18 @@
                 el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                 observer.observe(el);
             });
+            
+            // Corrigir links das redes sociais
+            const facebookLink = document.querySelector('a[href*="facebook.com"]');
+            const instagramLink = document.querySelector('a[href*="instagram.com"]');
+            
+            if (facebookLink && !facebookLink.href.startsWith('http')) {
+                facebookLink.href = 'https://' + facebookLink.href;
+            }
+            
+            if (instagramLink && !instagramLink.href.startsWith('http')) {
+                instagramLink.href = 'https://' + instagramLink.href;
+            }
         });
     </script>
 </body>
