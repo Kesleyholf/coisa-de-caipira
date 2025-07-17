@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coisa de Caipira Alimentos</title>
 
   <!-- Bootstrap -->
@@ -40,7 +40,7 @@
       color: var(--bege);
       text-align: center;
       margin-top: 20px;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
     .hero-section {
       background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1500x500 ');
@@ -52,6 +52,11 @@
     .card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .animate-fadeIn {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
   </style>
 </head>
@@ -85,9 +90,9 @@
   <!-- Hero Section -->
   <section class="hero-section" id="heroSection">
     <div class="container text-center py-5">
-      <h1 class="display-4">Coisa de Caipira Alimentos</h1>
-      <p class="lead">O verdadeiro sabor da roça direto para sua casa</p>
-      <a href="#produtos" class="btn btn-primary btn-lg mt-3">
+      <h1 class="display-4 animate-fadeIn">Coisa de Caipira Alimentos</h1>
+      <p class="lead animate-fadeIn">O verdadeiro sabor da roça direto para sua casa</p>
+      <a href="#produtos" class="btn btn-primary btn-lg mt-3 animate-fadeIn">
         <i class="bi bi-arrow-down"></i> Conheça nossos produtos
       </a>
     </div>
@@ -145,10 +150,10 @@
             <a href="https://wa.me/5531987716571 " target="_blank" class="btn btn-success me-2">
               <i class="bi bi-whatsapp"></i> WhatsApp
             </a>
-            <a href="#" target="_blank" class="btn btn-primary me-2">
+            <a href="https://facebook.com/sua_pagina " target="_blank" class="btn btn-primary me-2">
               <i class="bi bi-facebook"></i> Facebook
             </a>
-            <a href="#" target="_blank" class="btn btn-info">
+            <a href="https://instagram.com/sua_pagina " target="_blank" class="btn btn-danger">
               <i class="bi bi-instagram"></i> Instagram
             </a>
           </div>
@@ -161,7 +166,7 @@
   <footer class="bg-success text-white text-center py-4">
     <div class="container">
       <p>&copy; 2023 Coisa de Caipira Alimentos. Todos os direitos reservados.</p>
-      <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong> - Aperfeiçoamos a Perfeição</p>
+      <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong></p>
     </div>
   </footer>
 
@@ -252,12 +257,12 @@
   <script>
     // Firebase config
     const firebaseConfig = {
-      apiKey: "AIzaSyADdZbV9CvD6EO3TXY4FsV-4WRxZLkjuNw",
-      authDomain: "coisa-de-caipira.firebaseapp.com",
-      projectId: "coisa-de-caipira",
-      storageBucket: "coisa-de-caipira.appspot.com",
-      messagingSenderId: "784075359586",
-      appId: "1:784075359586:web:3b8902f0811e6117c4583b"
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_AUTH_DOMAIN",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_STORAGE_BUCKET",
+      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+      appId: "SEU_APP_ID"
     };
 
     // Initialize Firebase
@@ -371,6 +376,19 @@
     // Imagem fazenda
     storage.ref("banners/fazenda.jpg").getDownloadURL().then(url => {
       document.getElementById("fazendaImagem").src = url;
+    });
+
+    // Animações
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fadeIn');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.animate-fadeIn').forEach(el => observer.observe(el));
     });
   </script>
 </body>
