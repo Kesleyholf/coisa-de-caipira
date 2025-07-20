@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Coisa de Caipira Alimentos</title>
 
   <!-- Bootstrap -->
@@ -20,43 +20,28 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js "></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-storage-compat.js "></script>
 
+  <!-- Tailwind CSS (via CDN) -->
+  <script src="https://cdn.tailwindcss.com "></script>
+
+  <!-- jsPDF (para relatórios) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
+
   <!-- Estilo Customizado -->
   <style>
-    :root {
-      --verde-primario: #2e7d32;
-      --verde-secundario: #4caf50;
-      --verde-claro: #8bc34a;
-      --verde-escuro: #1b5e20;
-      --bege: #f5f5dc;
-      --marrom: #5d4037;
-    }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
-    }
     .developer-signature {
       font-family: 'Georgia', serif;
       font-style: italic;
-      color: var(--bege);
+      color: #f5f5dc;
       text-align: center;
       margin-top: 20px;
-      font-size: 1rem;
     }
-    .hero-section {
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1500x500 ');
-      background-size: cover;
-      background-position: center;
-      padding: 100px 0;
-      color: white;
+    .animate-pulse {
+      animation: pulse 2s infinite;
     }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .animate-fadeIn {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.4; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
@@ -70,10 +55,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#produtos">Produtos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#sobre">Sobre Nós</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
+          <li class="nav-item"><a class="nav-link" href="#produtos"><i class="bi bi-basket"></i> Produtos</a></li>
+          <li class="nav-item"><a class="nav-link" href="#sobre"><i class="bi bi-info-circle"></i> Sobre Nós</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contato"><i class="bi bi-telephone"></i> Contato</a></li>
         </ul>
         <div class="d-flex">
           <button class="btn btn-outline-light me-2" onclick="showLoginModal()">
@@ -88,11 +72,12 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero-section" id="heroSection">
-    <div class="container text-center py-5">
-      <h1 class="display-4 animate-fadeIn">Coisa de Caipira Alimentos</h1>
-      <p class="lead animate-fadeIn">O verdadeiro sabor da roça direto para sua casa</p>
-      <a href="#produtos" class="btn btn-primary btn-lg mt-3 animate-fadeIn">
+  <section id="heroSection" class="relative bg-green-900 text-white py-20">
+    <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+    <div class="container mx-auto text-center py-5">
+      <h1 class="text-4xl font-bold mb-4 animate-pulse">Coisa de Caipira Alimentos</h1>
+      <p class="text-xl mb-8">O verdadeiro sabor da roça direto para sua casa</p>
+      <a href="#produtos" class="btn btn-primary btn-lg">
         <i class="bi bi-arrow-down"></i> Conheça nossos produtos
       </a>
     </div>
@@ -123,15 +108,15 @@
         <div class="col-md-6 mb-4">
           <form id="contactForm">
             <div class="mb-3">
-              <label for="nome" class="form-label">Nome</label>
-              <input type="text" class="form-control" required>
+              <label class="form-label">Nome</label>
+              <input type="text" id="nome" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
+              <label class="form-label">Email</label>
               <input type="email" class="form-control" required>
             </div>
             <div class="mb-3">
-              <label for="mensagem" class="form-label">Mensagem</label>
+              <label class="form-label">Mensagem</label>
               <textarea class="form-control" rows="4" required></textarea>
             </div>
             <button type="submit" class="btn btn-success">Enviar</button>
@@ -147,13 +132,13 @@
           <h5><i class="bi bi-clock-fill text-success"></i> Horário</h5>
           <p>Segunda a Sexta: 8h às 18h</p>
           <div>
-            <a href="https://wa.me/5531987716571 " target="_blank" class="btn btn-success me-2">
+            <a href=" https://wa.me/5531987716571 " target="_blank" class="btn btn-success me-2">
               <i class="bi bi-whatsapp"></i> WhatsApp
             </a>
-            <a href="https://facebook.com/sua_pagina " target="_blank" class="btn btn-primary me-2">
+            <a href="#" target="_blank" class="btn btn-primary me-2">
               <i class="bi bi-facebook"></i> Facebook
             </a>
-            <a href="https://instagram.com/sua_pagina " target="_blank" class="btn btn-danger">
+            <a href="#" target="_blank" class="btn btn-info">
               <i class="bi bi-instagram"></i> Instagram
             </a>
           </div>
@@ -166,7 +151,7 @@
   <footer class="bg-success text-white text-center py-4">
     <div class="container">
       <p>&copy; 2023 Coisa de Caipira Alimentos. Todos os direitos reservados.</p>
-      <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong></p>
+      <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong> - Aperfeiçoamos a Perfeição</p>
     </div>
   </footer>
 
@@ -235,7 +220,7 @@
       </div>
       <div class="mb-3">
         <label>Descrição</label>
-        <textarea id="productDescription" class="form-control" rows="4" required></textarea>
+        <textarea id="productDescription" class="form-control" required></textarea>
       </div>
       <div class="mb-3">
         <label>Preço</label>
@@ -257,46 +242,47 @@
   <script>
     // Firebase config
     const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "SEU_AUTH_DOMAIN",
-      projectId: "SEU_PROJECT_ID",
-      storageBucket: "SEU_STORAGE_BUCKET",
-      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-      appId: "SEU_APP_ID"
+      apiKey: "AIzaSyADdZbV9CvD6EO3TXY4FsV-4WRxZLkjuNw",
+      authDomain: "coisa-de-caipira.firebaseapp.com",
+      projectId: "coisa-de-caipira",
+      storageBucket: "coisa-de-caipira.appspot.com",
+      messagingSenderId: "784075359586",
+      appId: "1:784075359586:web:3b8902f0811e6117c4583b"
     };
-
-    // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const auth = firebase.auth();
     const storage = firebase.storage();
+    let user = null;
 
-    let currentUser = null;
-
+    // Mostrar modais
     function showLoginModal() {
       new bootstrap.Modal(document.getElementById('loginModal')).show();
     }
-
     function showRegisterModal() {
       bootstrap.Modal.getInstance(document.getElementById('loginModal')).hide();
       new bootstrap.Modal(document.getElementById('registerModal')).show();
     }
 
+    // Login
     document.getElementById("loginForm").addEventListener("submit", e => {
       e.preventDefault();
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
       auth.signInWithEmailAndPassword(email, password).then(userCredential => {
-        currentUser = userCredential.user;
+        user = userCredential.user;
         if (email === "admin@coisadecaipira.com") {
           document.querySelectorAll("body > :not(#adminArea)").forEach(el => el.style.display = "none");
           document.getElementById("adminArea").style.display = "block";
         }
         Swal.fire("Login realizado!", "", "success");
         bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
-      }).catch(e => Swal.fire("Erro", e.message, "error"));
+      }).catch(e => {
+        Swal.fire("Erro", e.message, "error");
+      });
     });
 
+    // Registro
     document.getElementById("registerForm").addEventListener("submit", e => {
       e.preventDefault();
       const name = document.getElementById("registerName").value;
@@ -306,7 +292,9 @@
         db.collection("users").doc(userCredential.user.uid).set({ name, email });
         Swal.fire("Conta criada!", "", "success");
         bootstrap.Modal.getInstance(document.getElementById("registerModal")).hide();
-      }).catch(e => Swal.fire("Erro", e.message, "error"));
+      }).catch(e => {
+        Swal.fire("Erro", e.message, "error");
+      });
     });
 
     // Carregar produtos
@@ -321,9 +309,9 @@
               <div class="card-body">
                 <h5 class="card-title">${p.name}</h5>
                 <p class="card-text">${p.description}</p>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between">
                   <span class="h5 text-success">R$ ${p.price.toFixed(2)}</span>
-                  <button onclick="addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})" class="btn btn-sm btn-outline-success">
+                  <button onclick="addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')}" class="btn btn-outline-success btn-sm">
                     <i class="bi bi-cart-plus"></i> Adicionar
                   </button>
                 </div>
@@ -347,6 +335,8 @@
           db.collection("produtos").add({ name, description, price, image: url });
           Swal.fire("Produto salvo!", "", "success");
         });
+      }).catch(e => {
+        Swal.fire("Erro", e.message, "error");
       });
     });
 
@@ -358,7 +348,6 @@
       else cart.push({...product, quantity: 1});
       Swal.fire("Adicionado ao carrinho", "", "success");
     }
-
     function showCart() {
       let html = "";
       cart.forEach(item => {
@@ -376,19 +365,6 @@
     // Imagem fazenda
     storage.ref("banners/fazenda.jpg").getDownloadURL().then(url => {
       document.getElementById("fazendaImagem").src = url;
-    });
-
-    // Animações
-    document.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fadeIn');
-          }
-        });
-      }, { threshold: 0.1 });
-
-      document.querySelectorAll('.animate-fadeIn').forEach(el => observer.observe(el));
     });
   </script>
 </body>
