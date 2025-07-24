@@ -1,359 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Coisa de Caipira Alimentos</title>
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons @1.10.0/font/bootstrap-icons.css" />
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2 @11"></script>
-  <!-- Firebase SDK -->
-  <script defer src="/__/firebase/12.0.0/firebase-app-compat.js"></script>
-  <script defer src="/__/firebase/12.0.0/firebase-auth-compat.js"></script>
-  <script defer src="/__/firebase/12.0.0/firebase-firestore-compat.js"></script>
-  <script defer src="/__/firebase/12.0.0/firebase-storage-compat.js"></script>
-  <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-  <!-- Tailwind CSS (via CDN) -->
-  <script src="https://cdn.tailwindcss.com "></script>
-  <!-- jsPDF (para relatórios) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js "></script>
-  <!-- Estilo Customizado -->
-  <style>
-    .developer-signature {
-      font-family: 'Georgia', serif;
-      font-style: italic;
-      color: #f5f5dc;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .animate-pulse {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 1; }
-    }
-  </style>
-</head>
-<body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-    <div class="container">
-      <a class="navbar-brand" href="#"><i class="bi bi-flower1"></i> Coisa de Caipira Alimentos</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto">
-          <li class="nav-item"><a class="nav-link" href="#produtos"><i class="bi bi-basket"></i> Produtos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#sobre"><i class="bi bi-info-circle"></i> Sobre Nós</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contato"><i class="bi bi-telephone"></i> Contato</a></li>
-        </ul>
-        <div class="d-flex">
-          <button class="btn btn-outline-light me-2" onclick="showLoginModal()">
-            <i class="bi bi-box-arrow-in-right"></i> Login
-          </button>
-          <button class="btn btn-light" onclick="showCart()">
-            <i class="bi bi-cart3"></i> Carrinho
-          </button>
-        </div>
-      </div>
-    </div>
-  </nav>
-  <!-- Hero Section -->
-  <section id="heroSection" class="relative bg-green-900 text-white py-20">
-    <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
-    <div class="container mx-auto text-center py-5">
-      <h1 class="text-4xl font-bold mb-4 animate-pulse">Coisa de Caipira Alimentos</h1>
-      <p class="text-xl mb-8">O verdadeiro sabor da roça direto para sua casa</p>
-      <a href="#produtos" class="btn btn-primary btn-lg">
-        <i class="bi bi-arrow-down"></i> Conheça nossos produtos
-      </a>
-    </div>
-  </section>
-  <!-- Produtos -->
-  <section id="produtos" class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Nossos Produtos</h2>
-      <div id="productsList" class="row"></div>
-    </div>
-  </section>
-  <!-- Sobre Nós -->
-  <section id="sobre" class="py-5 bg-light">
-    <div class="container">
-      <h2 class="text-center mb-4">Sobre Nós</h2>
-      <img id="fazendaImagem" src="" class="img-fluid rounded mb-4" alt="Fazenda Familiar">
-      <p>Fundada em 2010, a <strong>Coisa de Caipira Alimentos</strong> nasceu do sonho de levar os sabores autênticos da roça para a mesa das famílias brasileiras.</p>
-    </div>
-  </section>
-  <!-- Contato -->
-  <section id="contato" class="py-5">
-    <div class="container">
-      <h2 class="text-center mb-4">Fale Conosco</h2>
-      <div class="row">
-        <div class="col-md-6 mb-4">
-          <form id="contactForm">
-            <div class="mb-3">
-              <label class="form-label">Nome</label>
-              <input type="text" id="nome" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label class="form-label">Mensagem</label>
-              <textarea class="form-control" rows="4" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-success">Enviar</button>
-          </form>
-        </div>
-        <div class="col-md-6 mb-4">
-          <h5><i class="bi bi-geo-alt-fill text-success"></i> Endereço</h5>
-          <p>Fazenda Santa Rosa, Zona Rural, Cidade - Estado</p>
-          <h5><i class="bi bi-telephone-fill text-success"></i> Telefone</h5>
-          <p>(31) 98771-6571</p>
-          <h5><i class="bi bi-envelope-fill text-success"></i> Email</h5>
-          <p>contato@coisadecaipira.com.br</p>
-          <h5><i class="bi bi-clock-fill text-success"></i> Horário</h5>
-          <p>Segunda a Sexta: 8h às 18h</p>
-          <div>
-            <a href=" https://wa.me/5531987716571 " target="_blank" class="btn btn-success me-2">
-              <i class="bi bi-whatsapp"></i> WhatsApp
-            </a>
-            <a href="#" target="_blank" class="btn btn-primary me-2">
-              <i class="bi bi-facebook"></i> Facebook
-            </a>
-            <a href="#" target="_blank" class="btn btn-info">
-              <i class="bi bi-instagram"></i> Instagram
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Footer -->
-  <footer class="bg-success text-white text-center py-4">
-    <div class="container">
-      <p>&copy; 2023 Coisa de Caipira Alimentos. Todos os direitos reservados.</p>
-      <p class="developer-signature">Desenvolvido por <strong>KHOLFTECH</strong> - Aperfeiçoamos a Perfeição</p>
-    </div>
-  </footer>
-  <!-- Modal Login -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Login</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="loginForm">
-            <div class="mb-3">
-              <label>Email</label>
-              <input type="email" id="loginEmail" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label>Senha</label>
-              <input type="password" id="loginPassword" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Entrar</button>
-            <a href="#" onclick="showRegisterModal()" class="d-block mt-3 text-center">Criar conta</a>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal Registro -->
-  <div class="modal fade" id="registerModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Criar Conta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="registerForm">
-            <div class="mb-3">
-              <label>Nome</label>
-              <input type="text" id="registerName" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label>Email</label>
-              <input type="email" id="registerEmail" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label>Senha</label>
-              <input type="password" id="registerPassword" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success w-100">Registrar</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Área Admin -->
-  <div id="adminArea" style="display:none;" class="admin-panel container my-5">
-    <h2>Área Administrativa</h2>
-    <form id="productForm">
-      <div class="mb-3">
-        <label>Nome do Produto</label>
-        <input type="text" id="productName" class="form-control" required>
-      </div>
-      <div class="mb-3">
-        <label>Descrição</label>
-        <textarea id="productDescription" class="form-control" required></textarea>
-      </div>
-      <div class="mb-3">
-        <label>Preço</label>
-        <input type="number" id="productPrice" class="form-control" step="0.01" required>
-      </div>
-      <div class="mb-3">
-        <label>Imagem</label>
-        <input type="file" id="productImage" accept="image/*" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-success">Salvar Produto</button>
-    </form>
-    <hr>
-    <h3>Pedidos</h3>
-    <div id="ordersList"></div>
-  </div>
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap @5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Inicialização do Firebase
-    document.addEventListener('DOMContentLoaded', function () {
-      const firebaseConfig = {
-        apiKey: "AIzaSyADdZbV9CvD6EO3TXY4FsV-4WRxZLkjuNw",
-        authDomain: "coisa-de-caipira.firebaseapp.com",
-        projectId: "coisa-de-caipira",
-        storageBucket: "coisa-de-caipira.appspot.com",
-        messagingSenderId: "784075359586",
-        appId: "1:784075359586:web:3b8902f0811e6117c4583b"
-      };
-      const app = firebase.initializeApp(firebaseConfig);
-      const db = firebase.firestore();
-      const auth = firebase.auth();
-      const storage = firebase.storage();
-      let user = null;
-
-      // Funções de Login e Registro
-      document.getElementById("loginForm").addEventListener("submit", e => {
-        e.preventDefault();
-        const email = document.getElementById("loginEmail").value;
-        const password = document.getElementById("loginPassword").value;
-        auth.signInWithEmailAndPassword(email, password).then(userCredential => {
-          user = userCredential.user;
-          if (email === "admin@coisadecaipira.com") {
-            document.querySelectorAll("body > :not(#adminArea)").forEach(el => el.style.display = "none");
-            document.getElementById("adminArea").style.display = "block";
-          }
-          Swal.fire("Login realizado!", "", "success");
-          bootstrap.Modal.getInstance(document.getElementById("loginModal")).hide();
-        }).catch(e => {
-          Swal.fire("Erro", e.message, "error");
-        });
-      });
-
-      document.getElementById("registerForm").addEventListener("submit", e => {
-        e.preventDefault();
-        const name = document.getElementById("registerName").value;
-        const email = document.getElementById("registerEmail").value;
-        const password = document.getElementById("registerPassword").value;
-        auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
-          db.collection("users").doc(userCredential.user.uid).set({ name, email });
-          Swal.fire("Conta criada!", "", "success");
-          bootstrap.Modal.getInstance(document.getElementById("registerModal")).hide();
-        }).catch(e => {
-          Swal.fire("Erro", e.message, "error");
-        });
-      });
-
-      // Carregar Produtos
-      db.collection("produtos").onSnapshot(snapshot => {
-        document.getElementById("productsList").innerHTML = "";
-        snapshot.forEach(doc => {
-          const p = doc.data();
-          const html = `
-            <div class="col-md-4 mb-4">
-              <div class="card h-100">
-                <img src="${p.image}" class="card-img-top" alt="${p.name}">
-                <div class="card-body">
-                  <h5 class="card-title">${p.name}</h5>
-                  <p class="card-text">${p.description}</p>
-                  <div class="d-flex justify-content-between">
-                    <span class="h5 text-success">R$ ${p.price.toFixed(2)}</span>
-                    <button onclick="addToCart(${JSON.stringify(p).replace(/"/g, '&quot;')})" class="btn btn-outline-success btn-sm">
-                      <i class="bi bi-cart-plus"></i> Adicionar
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>`;
-          document.getElementById("productsList").innerHTML += html;
-        });
-      });
-
-      // Upload de Produto
-      document.getElementById("productForm").addEventListener("submit", e => {
-        e.preventDefault();
-        const name = document.getElementById("productName").value;
-        const description = document.getElementById("productDescription").value;
-        const price = parseFloat(document.getElementById("productPrice").value);
-        const file = document.getElementById("productImage").files[0];
-        const storageRef = storage.ref("produtos/" + file.name);
-        storageRef.put(file).then(() => {
-          storageRef.getDownloadURL().then(url => {
-            db.collection("produtos").add({ name, description, price, image: url });
-            Swal.fire("Produto salvo!", "", "success");
-          });
-        }).catch(e => {
-          Swal.fire("Erro", e.message, "error");
-        });
-      });
-
-      // Carrinho
-      let cart = [];
-      function addToCart(product) {
-        const item = cart.find(p => p.name === product.name);
-        if (item) item.quantity += 1;
-        else cart.push({ ...product, quantity: 1 });
-        Swal.fire("Adicionado ao carrinho", "", "success");
-      }
-
-      function showCart() {
-        let html = "";
-        cart.forEach(item => {
-          html += `<div>${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}</div>`;
-        });
-        html += `<hr><strong>Total: R$ ${cart.reduce((t, i) => t + i.price * i.quantity, 0).toFixed(2)}</strong>`;
-        Swal.fire({ title: "Carrinho", html });
-      }
-
-      // Banner do Firebase
-      storage.ref("banners/principal.jpg").getDownloadURL().then(url => {
-        document.getElementById("heroSection").style.backgroundImage = `url('${url}')`;
-      });
-
-      // Imagem Fazenda
-      storage.ref("banners/fazenda.jpg").getDownloadURL().then(url => {
-        document.getElementById("fazendaImagem").src = url;
-      });
-    });
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="pt-BR">
-<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coisa de Caipira Alimentos</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- ✅ FAVICON ADICIONADO AQUI (mesmo link do logo) -->
+  <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/logo%20coisacaipira.jpg?alt=media&token=b02ab355-f0ae-4875-ba84-352fec899b50" type="image/jpeg">
   <style>
       /* Estilos personalizados */
     .slogan-gradiente {
@@ -419,26 +73,23 @@
     }
   </style>
 </head>
+<!-- ... (restante do código permanece EXATAMENTE IGUAL) ... -->
 <body class="bg-caipira">
   <!-- Banner animado superior -->
   <div class="fixed top-[88px] left-0 right-0 z-40 bg-yellow-400 text-green-900 py-1 overflow-hidden">
-  <div class="banner-scroll text-lg font-bold">
-    🚜 FAÇA AGORA SEU PEDIDO! • ENTREGAMOS EM SEU ENDEREÇO • PROMOÇÃO: 2KG DE TOMATE POR R$ 15,90 •
+    <div class="banner-scroll text-lg font-bold">
+      🚜 FAÇA AGORA SEU PEDIDO! • ENTREGAMOS EM SEU ENDEREÇO • PROMOÇÃO: FUBÁ FEITO NO MOIHO DE PEDRA APENAS R$4,90 KG - FALE COM UM DE NOSSOS REPRESENTANTES!•
+    </div>
   </div>
-</div>
-  <!-- Banner Flutuante -->
-  <div class="floating-banner">
-    🛒 Faça agora seu pedido! <a href="#produtos" class="underline font-bold">Clique aqui</a>
-  </div>
-
-  <!-- Header -->
+  
+  <!-- Header com título responsivo -->
   <header class="bg-white shadow-md fixed w-full z-50 top-8">
     <div class="container mx-auto px-4 md:px-6 py-3 flex justify-between items-center">
-      <!-- Logo -->
+      <!-- Logo com título que aparece em todos os tamanhos -->
       <a href="#" class="flex items-center">
         <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/logo%20coisacaipira.jpg?alt=media&token=b02ab355-f0ae-4875-ba84-352fec899b50"
              alt="Coisa de Caipira" class="h-12 md:h-16">
-        <span class="ml-2 text-lg md:text-xl font-bold text-green-800 hidden sm:block">Coisa de Caipira Alimentos</span>
+        <span class="ml-2 text-sm sm:text-lg md:text-xl font-bold text-green-900">COISA DE CAIPIRA ALIMENTOS</span>
       </a>
 
       <!-- Menu Desktop -->
@@ -452,10 +103,10 @@
 
       <!-- Ícones de Redes Sociais + Carrinho -->
       <div class="flex items-center space-x-3 md:space-x-4">
-        <a href="https://wa.me/SEU_NUMERO" target="_blank" class="text-green-600 hover:text-green-800">
+        <a href="https://wa.me/31987716571" target="_blank" class="text-green-600 hover:text-green-800">
           <i class="fab fa-whatsapp text-lg md:text-xl"></i>
         </a>
-        <a href="https://instagram.com/SEU_INSTAGRAM" target="_blank" class="text-green-600 hover:text-green-800">
+        <a href="https://instagram.com/alimentoscoisadecaipira" target="_blank" class="text-green-600 hover:text-green-800">
           <i class="fab fa-instagram text-lg md:text-xl"></i>
         </a>
         <a href="#carrinho" class="text-green-600 hover:text-green-800 relative">
@@ -475,8 +126,7 @@
         <a href="#produtos" class="text-green-800 hover:text-green-600 py-2 border-b border-gray-100">Produtos</a>
         <a href="#historia" class="text-green-800 hover:text-green-600 py-2 border-b border-gray-100">Nossa História</a>
         <a href="#contato" class="text-green-800 hover:text-green-600 py-2 border-b border-gray-100">Contato</a>
-        <a href="#login" class="text-green-800 hover:text-green-600 py-2 border-b border-gray-100">Login</a>
-        <a href="#cadastro" class="text-green-800 hover:text-green-600 py-2">Cadastro</a>
+        <a href="#login" class="text-green-800 hover:text-green-600 py-2">Login</a>
       </div>
     </nav>
   </header>
@@ -488,30 +138,177 @@
            alt="Fazenda" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/1200x400?text=Fazenda+Indispon%C3%ADvel'">
       <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center px-4">
         <div class="text-center">
-          <h2 class="text-5xl md:text-7xl font-bold text-center mb-4 slogan-gradiente">
+          <h2 class="text-3xl sm:text-5xl md:text-7xl font-bold text-center mb-4 slogan-gradiente">
             DA ROÇA PRA SUA MESA
           </h2>
-          <p class="text-xl text-white">Alimentos frescos direto do sítio!</p>
+          <p class="text-lg sm:text-xl text-white">Alimentos frescos direto do campo!</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Seção Produtos -->
+  <!-- Seção Nossa História (inicialmente escondida) -->
+  <section id="historia" class="py-12 md:py-16 bg-green-100 hidden">
+    <div class="container mx-auto px-4 md:px-6">
+      <!-- Título e Descrição -->
+      <h2 class="text-2xl md:text-3xl font-bold text-center text-green-800 mb-8 md:mb-12">Nossa História</h2>
+      <div class="flex flex-col md:flex-row gap-6 md:gap-12">
+        <!-- Foto Principal -->
+        <div class="w-full md:w-1/2">
+          <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/principal.jpg?alt=media&token=1fbd0294-faac-4498-87c7-5af7397d2e9a" alt="Foto Principal" class="w-full h-auto rounded-lg shadow-lg object-cover">
+        </div>
+        <!-- Texto da História -->
+        <div class="w-full md:w-1/2 space-y-6">
+          <p class="text-green-700">
+            A Coisa de Caipira nasceu em 2010 no coração de Minas Gerais, fruto do sonho de uma família de agricultores que queria levar alimentos frescos e de qualidade direto da roça para a mesa dos consumidores.
+          </p>
+          <p class="text-green-700">
+            Começamos pequenos, com uma pequena horta familiar, e hoje cultivamos mais de 20 variedades de legumes, verduras e grãos, sempre respeitando os ciclos naturais e sem uso de agrotóxicos.
+          </p>
+          <p class="text-green-700">
+            Nosso compromisso é com a qualidade, o sabor autêntico da comida caseira e o respeito pela terra que nos alimenta.
+          </p>
+          <div class="space-y-4">
+            <!-- Missão -->
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-bullseye text-xl text-green-600"></i>
+              <div>
+                <p class="font-bold text-green-800">Missão</p>
+                <p class="text-green-700">Produzir alimentos saudáveis e saborosos, preservando as tradições da agricultura familiar mineira.</p>
+              </div>
+            </div>
+            <!-- Visão -->
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-eye text-xl text-green-600"></i>
+              <div>
+                <p class="font-bold text-green-800">Visão</p>
+                <p class="text-green-700">Ser referência em alimentos naturais e sustentáveis, conectando o campo à cidade.</p>
+              </div>
+            </div>
+            <!-- Valores -->
+            <div class="flex items-center space-x-3">
+              <i class="fas fa-heart text-xl text-green-600"></i>
+              <div>
+                <p class="font-bold text-green-800">Valores</p>
+                <p class="text-green-700">Qualidade, tradição, respeito ao meio ambiente e satisfação do cliente.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Galeria com Abas -->
+      <div class="mt-12">
+        <h3 class="text-xl md:text-2xl font-bold text-center text-green-800 mb-6">Galeria</h3>
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <!-- Abas -->
+          <div class="flex border-b border-green-200">
+            <button id="tab-fotos" class="w-1/2 py-4 text-center text-green-800 font-semibold border-b-2 border-green-600 bg-green-50 hover:bg-green-100 focus:outline-none">
+              Fotos
+            </button>
+            <button id="tab-videos" class="w-1/2 py-4 text-center text-green-800 font-semibold border-b-2 border-transparent hover:border-green-600 hover:bg-green-100 focus:outline-none">
+              Vídeos
+            </button>
+          </div>
+
+          <!-- Conteúdo das Abas -->
+          <div id="conteudo-fotos" class="p-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              <!-- Foto Principal -->
+              <a href="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.27.09_9b1f29d4.jpg?alt=media&token=e88701c3-8417-46d0-93e1-6ebd4d87fed0" target="_blank" class="block relative group">
+                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.27.09_9b1f29d4.jpg?alt=media&token=e88701c3-8417-46d0-93e1-6ebd4d87fed0" alt="Foto Principal" class="w-full h-40 object-cover rounded-lg shadow-md">
+                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+              </a>
+              <!-- Outras Fotos -->
+              <a href="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.25.22_7ded011e.jpg?alt=media&token=441bc31d-2de0-4442-ba3a-61d8bf6f6604" target="_blank" class="block relative group">
+                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.25.22_7ded011e.jpg?alt=media&token=441bc31d-2de0-4442-ba3a-61d8bf6f6604" alt="Foto 1" class="w-full h-40 object-cover rounded-lg shadow-md">
+                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+              </a>
+              <a href="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.27.12_ba3ff531.jpg?alt=media&token=d0859dde-5a11-4bca-a9a0-0a31310541d0" target="_blank" class="block relative group">
+                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.27.12_ba3ff531.jpg?alt=media&token=d0859dde-5a11-4bca-a9a0-0a31310541d0" alt="Foto 2" class="w-full h-40 object-cover rounded-lg shadow-md">
+                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+              </a>
+              <a href="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.27.14_687e6e3a.jpg?alt=media&token=a623dff6-6361-4b43-8a3f-36c21576140f" target="_blank" class="block relative group">
+                <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Imagem%20do%20WhatsApp%20de%202025-07-14%20%C3%A0(s)%2006.27.14_687e6e3a.jpg?alt=media&token=a623dff6-6361-4b43-8a3f-36c21576140f" alt="Foto 3" class="w-full h-40 object-cover rounded-lg shadow-md">
+                <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <i class="fas fa-search text-white text-2xl"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div id="conteudo-videos" class="hidden p-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <!-- Vídeo 1 -->
+              <div class="relative group">
+                <video
+                  poster="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/VIDEOS%2FCAMPO%201%20.mp4?alt=media&token=f1ebf0a6-9550-41cb-aa70-c8100ec8aa58"
+                  controls
+                  class="w-full h-60 object-cover rounded-lg shadow-md"
+                >
+                  <source
+                    src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/VIDEOS%2FCAMPO%201%20.mp4?alt=media&token=f1ebf0a6-9550-41cb-aa70-c8100ec8aa58"
+                    type="video/mp4"
+                  />
+                  Seu navegador não suporta o vídeo
+                </video>
+              </div>
+              <!-- Vídeo 2 -->
+              <div class="relative group">
+                <video
+                  poster="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/VIDEOS%2FCAMPO%203.mp4?alt=media&token=0e20e746-d666-428b-9cd1-b86aaea35850"
+                  controls
+                  class="w-full h-60 object-cover rounded-lg shadow-md"
+                >
+                  <source
+                    src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/VIDEOS%2FCAMPO%203.mp4?alt=media&token=0e20e746-d666-428b-9cd1-b86aaea35850"
+                    type="video/mp4"
+                  />
+                  Seu navegador não suporta o vídeo
+                </video>
+              </div>
+              <!-- Vídeo 3 -->
+              <div class="relative group">
+                <video
+                  poster="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/VIDEOS%2FCAMPO%204.mp4?alt=media&token=44987d6d-7684-4924-b247-42d74243f860"
+                  controls
+                  class="w-full h-60 object-cover rounded-lg shadow-md"
+                >
+                  <source
+                    src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/VIDEOS%2FCAMPO%204.mp4?alt=media&token=44987d6d-7684-4924-b247-42d74243f860"
+                    type="video/mp4"
+                  />
+                  Seu navegador não suporta o vídeo
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seção Produtos centralizada -->
   <section id="produtos" class="py-12 md:py-16 bg-white">
     <div class="container mx-auto px-4 md:px-6">
       <h2 class="text-2xl md:text-3xl font-bold text-center text-green-800 mb-8 md:mb-12">Nossos Produtos</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 justify-items-center">
         <!-- Fubá -->
-        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg">
-          <div class="overflow-hidden">
+        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg w-full max-w-xs">
+          <div class="overflow-hidden flex justify-center">
             <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Produtos%2Ffub%C3%A1.jpg?alt=media&token=d5392d93-8d7b-4fdf-a6bd-de2e702b72a8"
                  alt="Fubá" class="produto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Fub%C3%A1+Indispon%C3%ADvel'">
           </div>
-          <div class="p-4 md:p-6">
+          <div class="p-4 md:p-6 text-center">
             <h3 class="text-lg md:text-xl font-semibold text-green-800">Fubá no Moinho de Pedra</h3>
             <p class="text-green-600 text-sm md:text-base mt-1 md:mt-2">Pacote 1kg</p>
-            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 8,90</p>
+            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 4,90</p>
             <button class="mt-3 md:mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full transition-colors">
               Comprar
             </button>
@@ -519,15 +316,15 @@
         </div>
         
         <!-- Jiló -->
-        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg">
-          <div class="overflow-hidden">
+        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg w-full max-w-xs">
+          <div class="overflow-hidden flex justify-center">
             <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Produtos%2Fjil%C3%B3%20fresco.jfif?alt=media&token=bdf3deb5-882f-4cf9-9bb3-5c0bc00e8aeb"
                  alt="Jiló Fresco" class="produto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Jil%C3%B3+Indispon%C3%ADvel'">
           </div>
-          <div class="p-4 md:p-6">
+          <div class="p-4 md:p-6 text-center">
             <h3 class="text-lg md:text-xl font-semibold text-green-800">Jiló Fresco</h3>
             <p class="text-green-600 text-sm md:text-base mt-1 md:mt-2">Bandeja 500g</p>
-            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 6,50</p>
+            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 4,50</p>
             <button class="mt-3 md:mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full transition-colors">
               Comprar
             </button>
@@ -535,15 +332,15 @@
         </div>
         
         <!-- Quiabo -->
-        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg">
-          <div class="overflow-hidden">
+        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg w-full max-w-xs">
+          <div class="overflow-hidden flex justify-center">
             <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Produtos%2Fquiabo%20da%20ro%C3%A7a.webp?alt=media&token=62c80802-0c65-40cc-9b02-0a977474ad9d"
                  alt="Quiabo da Roça" class="produto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Quiabo+Indispon%C3%ADvel'">
           </div>
-          <div class="p-4 md:p-6">
+          <div class="p-4 md:p-6 text-center">
             <h3 class="text-lg md:text-xl font-semibold text-green-800">Quiabo da Roça</h3>
             <p class="text-green-600 text-sm md:text-base mt-1 md:mt-2">Bandeja 500g</p>
-            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 7,80</p>
+            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 4,80</p>
             <button class="mt-3 md:mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full transition-colors">
               Comprar
             </button>
@@ -551,12 +348,12 @@
         </div>
         
         <!-- Tomate -->
-        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg">
-          <div class="overflow-hidden">
+        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg w-full max-w-xs">
+          <div class="overflow-hidden flex justify-center">
             <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/Produtos%2Ftomates-vermelhos-frescos_2829-13449.avif?alt=media&token=9ba3e0c1-2f48-482c-a293-ab4169d11273"
                  alt="Tomate Fresco" class="produto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Tomate+Indispon%C3%ADvel'">
           </div>
-          <div class="p-4 md:p-6">
+          <div class="p-4 md:p-6 text-center">
             <h3 class="text-lg md:text-xl font-semibold text-green-800">Tomate Fresco</h3>
             <p class="text-green-600 text-sm md:text-base mt-1 md:mt-2">Bandeja 1kg</p>
             <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 9,90</p>
@@ -567,15 +364,15 @@
         </div>
         
         <!-- Kit Feijoada -->
-        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg">
-          <div class="overflow-hidden">
+        <div class="produto-card bg-green-50 rounded-lg overflow-hidden shadow-lg w-full max-w-xs">
+          <div class="overflow-hidden flex justify-center">
             <img src="https://firebasestorage.googleapis.com/v0/b/coisa-de-caipira.firebasestorage.app/o/kit%20feijoada.jpg?alt=media&token=0388dd27-7227-444e-82c5-4859df6b511a"
                  alt="Kit Feijoada" class="produto-img" onerror="this.src='https://via.placeholder.com/300x200?text=Kit+Feijoada+Indispon%C3%ADvel'">
           </div>
-          <div class="p-4 md:p-6">
+          <div class="p-4 md:p-6 text-center">
             <h3 class="text-lg md:text-xl font-semibold text-green-800">Kit Feijoada Completo</h3>
             <p class="text-green-600 text-sm md:text-base mt-1 md:mt-2">Para 4 pessoas</p>
-            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 49,90</p>
+            <p class="text-xl md:text-2xl font-bold text-green-800 mt-2 md:mt-4">R$ 29,90</p>
             <button class="mt-3 md:mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full transition-colors">
               Comprar
             </button>
@@ -629,7 +426,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center md:text-left">
           <h3 class="text-xl font-bold mb-4">FALE CONOSCO</h3>
-          <p><i class="fas fa-phone-alt mr-2"></i> (XX) XXXX-XXXX</p>
+          <p><i class="fas fa-phone-alt mr-2"></i>(31) 98771-6571</p>
           <p class="mt-2"><i class="fas fa-envelope mr-2"></i> coisacaipiraalimentos@gmail.com</p>
           <p class="mt-2"><i class="fas fa-map-marker-alt mr-2"></i> São João do Oriente/MG</p>
         </div>
@@ -643,69 +440,144 @@
             <a href="https://www.instagram.com/alimentoscoisadecaipira?igsh=MWV2aGViejd1cTZpZw==" target="_blank" class="text-white hover:text-green-300 text-2xl">
               <i class="fab fa-instagram"></i>
             </a>
-            <a href="https://wa.me/SEU_NUMERO" target="_blank" class="text-white hover:text-green-300 text-2xl">
+            <a href="https://wa.me/31987716571" target="_blank" class="text-white hover:text-green-300 text-2xl">
               <i class="fab fa-whatsapp"></i>
             </a>
           </div>
         </div>
         
         <div class="text-center md:text-right">
-            <h3 class="text-xl font-bold mb-4">Horário de Atendimento</h3>
-            <p>Segunda a Sexta: 8h às 18h</p>
-            <p class="mt-2">Sábado: 8h às 12h</p>
-            <p class="mt-4">© 2024 Coisa de Caipira Alimentos</p>
-          </div>
+          <h3 class="text-xl font-bold mb-4">Horário de Atendimento</h3>
+          <p>Segunda a Sexta: 8h às 18h</p>
+          <p class="mt-2">Sábado: 8h às 12h</p>
+          <p class="mt-4">© 2024 Coisa de Caipira Alimentos</p>
         </div>
       </div>
-    </footer>
-
-    <!-- Rodapé do desenvolvedor (corrigido) -->
-    <div class="bg-green-800 text-white py-3 text-center w-full">
-      <p>Desenvolvido por <strong class="text-orange-300">KholfTech</strong></p>
     </div>
-  </main>
+  </footer>
+
+  <!-- Rodapé do desenvolvedor -->
+  <div class="bg-green-800 text-white py-3 text-center w-full">
+    <p>Desenvolvido por <strong class="text-orange-300">KholfTech</strong></p>
+  </div>
+
+  <!-- Botão flutuante do WhatsApp -->
+  <a href="https://wa.me/31987716571" target="_blank" class="whatsapp-float">
+    <i class="fab fa-whatsapp text-white text-2xl"></i>
+  </a>
 
   <!-- Scripts -->
   <script>
-    // Menu Mobile Toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-
-    // Fechar menu ao clicar em um link
-    const mobileLinks = document.querySelectorAll('#mobile-menu a');
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elementos principais
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const historiaSection = document.getElementById('historia');
+      
+      // Menu Mobile Toggle
+      menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
       });
-    });
 
-    // Simular carrinho de compras
-    const carrinhoBtn = document.querySelector('a[href="#carrinho"]');
-    let carrinhoCount = 0;
-    
-    // Adicionar itens ao carrinho
-    const comprarBtns = document.querySelectorAll('.produto-card button');
-    comprarBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        carrinhoCount++;
-        const carrinhoBadge = carrinhoBtn.querySelector('span');
-        carrinhoBadge.textContent = carrinhoCount;
-        
-        // Efeito visual
-        btn.textContent = 'Adicionado!';
-        btn.classList.remove('bg-green-600');
-        btn.classList.add('bg-green-800');
-        
-        setTimeout(() => {
-          btn.textContent = 'Comprar';
-          btn.classList.remove('bg-green-800');
-          btn.classList.add('bg-green-600');
-        }, 1500);
+      // Função para mostrar a seção História
+      function mostrarHistoria(e) {
+        if (e) e.preventDefault();
+        historiaSection.classList.remove('hidden');
+        historiaSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // Função para esconder a seção História
+      function esconderHistoria() {
+        historiaSection.classList.add('hidden');
+      }
+
+      // Links do menu desktop
+      const historiaLinkDesktop = document.querySelector('nav a[href="#historia"]');
+      const homeLinkDesktop = document.querySelector('nav a[href="#home"]');
+      
+      if (historiaLinkDesktop) {
+        historiaLinkDesktop.addEventListener('click', mostrarHistoria);
+      }
+      
+      if (homeLinkDesktop) {
+        homeLinkDesktop.addEventListener('click', esconderHistoria);
+      }
+
+      // Links do menu mobile
+      const mobileLinks = document.querySelectorAll('#mobile-menu a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          // Fecha o menu mobile
+          mobileMenu.classList.add('hidden');
+          
+          // Verifica qual link foi clicado
+          if (this.getAttribute('href') === '#historia') {
+            mostrarHistoria(e);
+          } else if (this.getAttribute('href') === '#home') {
+            esconderHistoria();
+          }
+        });
       });
+
+      // Link da logo (esconde a seção história)
+      const logoLink = document.querySelector('header a[href="#"]');
+      if (logoLink) {
+        logoLink.addEventListener('click', esconderHistoria);
+      }
+
+      // Alternar entre abas de fotos e vídeos
+      const tabFotos = document.getElementById('tab-fotos');
+      const tabVideos = document.getElementById('tab-videos');
+      const conteudoFotos = document.getElementById('conteudo-fotos');
+      const conteudoVideos = document.getElementById('conteudo-videos');
+
+      if(tabFotos && tabVideos && conteudoFotos && conteudoVideos) {
+        tabFotos.addEventListener('click', function() {
+          tabFotos.classList.add('border-green-600', 'bg-green-50');
+          tabFotos.classList.remove('border-transparent');
+          tabVideos.classList.remove('border-green-600', 'bg-green-50');
+          tabVideos.classList.add('border-transparent');
+          conteudoFotos.classList.remove('hidden');
+          conteudoVideos.classList.add('hidden');
+        });
+
+        tabVideos.addEventListener('click', function() {
+          tabVideos.classList.add('border-green-600', 'bg-green-50');
+          tabVideos.classList.remove('border-transparent');
+          tabFotos.classList.remove('border-green-600', 'bg-green-50');
+          tabFotos.classList.add('border-transparent');
+          conteudoVideos.classList.remove('hidden');
+          conteudoFotos.classList.add('hidden');
+        });
+      }
+
+      // Simular carrinho de compras
+      const carrinhoBtn = document.querySelector('a[href="#carrinho"]');
+      let carrinhoCount = 0;
+
+      // Adicionar itens ao carrinho
+      const comprarBtns = document.querySelectorAll('.produto-card button');
+      if(comprarBtns) {
+        comprarBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            carrinhoCount++;
+            const carrinhoBadge = carrinhoBtn.querySelector('span');
+            if(carrinhoBadge) {
+              carrinhoBadge.textContent = carrinhoCount;
+            }
+
+            // Efeito visual ao adicionar ao carrinho
+            btn.textContent = 'Adicionado!';
+            btn.classList.remove('bg-green-600');
+            btn.classList.add('bg-green-800');
+            setTimeout(() => {
+              btn.textContent = 'Comprar';
+              btn.classList.remove('bg-green-800');
+              btn.classList.add('bg-green-600');
+            }, 1500);
+          });
+        });
+      }
     });
   </script>
 </body>
